@@ -9,7 +9,8 @@ def test_GLDAS025Img_img_reading():
 
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
     img = GLDAS025Img(data_path=os.path.join(os.path.dirname(__file__),
-                                             'image_data'),
+                                             '..', 'test-data',
+                                             'GLDAS_NOAH_image_data'),
                       parameter=parameter)
 
     data, metadata, timestamp, lon, lat, time = img.read_img(datetime(2015, 1, 1, 0))
