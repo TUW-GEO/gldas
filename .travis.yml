@@ -35,6 +35,7 @@ install:
   - source activate test-environment
   - pip install pygrib
   - pip install pygeogrids
+  - pip install pygeobase
   - python setup.py install
   - pip list
   - which pip
