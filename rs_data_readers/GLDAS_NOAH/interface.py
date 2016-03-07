@@ -6,21 +6,24 @@ try:
 except ImportError:
     warnings.warn("pygrib has not been imported")
 
-import rs_data_readers.dataset_base as dsbase
+from pygeobase.io_base import ImageBase, MultiTemporalImageBase
+from pygeobase.object_base import Image
 
 from datetime import timedelta
 
 from rs_data_readers.GLDAS_NOAH.grid import GLDAS025Cellgrid
 
 
-class GLDAS025Img(dsbase.DatasetImgBase):
+class GLDAS025Img(ImageBase):
     """
-    Class for reading GLDAS images in grib format.
+    Class for reading one GLDAS grib file
 
     Parameters
     ----------
-    data_path : string
-        path to the grib files
+    filename: string
+        filename of the GLDAS grib file
+    mode: string, optional
+        mode of opening the file, only 'r' is implemented at the moment
     parameter : string or list, optional
         one or list of ['001', '011', '032', '051', '057', '065', '071',
                         '085_L1', '085_L2', '085_L3', '085_L4',
@@ -31,33 +34,25 @@ class GLDAS025Img(dsbase.DatasetImgBase):
         Default : '086_L1'
     """
 
-    def __init__(self, data_path, parameter='086_L1'):
+    def __init__(self, filename, mode='r', parameter='086_L1'):
+        super(GLDAS025Img, self).__init__(filename, mode=mode)
 
-        grid = GLDAS025Cellgrid()
-
-        self.fill_values = np.repeat(9999., 1440 * 120)
         if type(parameter) != list:
             parameter = [parameter]
         self.parameters = parameter
+        self.fill_values = np.repeat(9999., 1440 * 120)
+        self.grid = GLDAS025Cellgrid()
 
-        sub_path = ['%Y', '%j']
-        filename_templ = "GLDAS_NOAH025SUBP_3H.A%Y%j.%H%M.001.*.grb"
-        super(GLDAS025Img, self).__init__(data_path,
-                                          filename_templ=filename_templ,
-                                          sub_path=sub_path,
-                                          exact_templ=False,
-                                          grid=grid)
-
-    def _read_spec_file(self, filename, timestamp=None):
+    def read(self, timestamp=None):
 
         return_img = {}
         layers = {'085': 1, '086': 1}
 
         try:
-            grbs = pygrib.open(filename)
+            grbs = pygrib.open(self.filename)
         except IOError as e:
             print e
-            print " ".join([filename, "can not be opened"])
+            print " ".join([self.filename, "can not be opened"])
             raise e
 
         ids = []
@@ -77,7 +72,8 @@ class GLDAS025Img(dsbase.DatasetImgBase):
                         param_data = np.concatenate((
                             self.fill_values,
                             np.ma.getdata(message['values']).flatten()))
-                        return_img[parameter] = param_data[self.grid.activegpis]
+                        return_img[parameter] = param_data[
+                            self.grid.activegpis]
                     layers[parameter_id] += 1
 
                 else:
@@ -92,13 +88,57 @@ class GLDAS025Img(dsbase.DatasetImgBase):
             try:
                 return_img[parameter]
             except KeyError:
-                print filename[filename.rfind('GLDAS'):], \
-                    'corrupt file - filling image with nan values'
+                print(self.filename[self.filename.rfind('GLDAS'):],
+                      'corrupt file - filling image with nan values')
                 return_img[parameter] = np.empty(self.grid.n_gpi)
                 return_img[parameter].fill(np.nan)
 
-        return (return_img, {}, timestamp, self.grid.activearrlon,
-                self.grid.activearrlat, None)
+        return Image(self.grid.activearrlon,
+                     self.grid.activearrlat,
+                     return_img,
+                     {},
+                     timestamp)
+
+    def write(self, data):
+        raise NotImplementedError()
+
+    def flush(self):
+        pass
+
+    def close(self):
+        pass
+
+
+class GLDAS025Ds(MultiTemporalImageBase):
+    """
+    Class for reading GLDAS images in grib format.
+
+    Parameters
+    ----------
+    data_path : string
+        path to the grib files
+    parameter : string or list, optional
+        one or list of ['001', '011', '032', '051', '057', '065', '071',
+                        '085_L1', '085_L2', '085_L3', '085_L4',
+                        '086_L1', '086_L2', '086_L3', '086_L4',
+                        '099', '111', '112', '121', '122', '131', '132', '138',
+                        '155', '204', '205', '234', '235']
+        parameters to read, see GLDAS documentation for more information
+        Default : '086_L1'
+    """
+
+    def __init__(self, data_path, parameter='086_L1'):
+
+        ioclass_kws = {'parameter': parameter}
+
+        sub_path = ['%Y', '%j']
+        filename_templ = "GLDAS_NOAH025SUBP_3H.A{datetime}.001.*.grb"
+        super(GLDAS025Ds, self).__init__(data_path, GLDAS025Img,
+                                         fname_templ=filename_templ,
+                                         datetime_format="%Y%j.%H%M",
+                                         subpath_templ=sub_path,
+                                         exact_templ=False,
+                                         ioclass_kws=ioclass_kws)
 
     def tstamps_for_daterange(self, start_date, end_date):
         """

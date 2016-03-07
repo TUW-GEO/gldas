@@ -3,3 +3,4 @@ pyproj
 pygeogrids
 pygrib
 numpy
+pygeobase
