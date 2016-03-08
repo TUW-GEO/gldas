@@ -51,8 +51,8 @@ class GLDAS025Img(ImageBase):
         try:
             grbs = pygrib.open(self.filename)
         except IOError as e:
-            print e
-            print " ".join([self.filename, "can not be opened"])
+            print(e)
+            print(" ".join([self.filename, "can not be opened"]))
             raise e
 
         ids = []
