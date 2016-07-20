@@ -1,8 +1,8 @@
 ===============
-rs_data_readers
+gldas
 ===============
 
-This is the documentation of **rs_data_readers**.
+This is the documentation of **gldas**.
 
 .. note::
 
