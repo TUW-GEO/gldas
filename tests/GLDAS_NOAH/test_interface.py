@@ -2,7 +2,7 @@ import os
 
 from datetime import datetime
 
-from rs_data_readers.GLDAS_NOAH.interface import GLDAS025Ds
+from gldas.GLDAS_NOAH.interface import GLDAS025Ds
 
 
 def test_GLDAS025Img_img_reading():
