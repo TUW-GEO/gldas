@@ -24,6 +24,11 @@ import sys
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
+    import mock
+
+    MOCK_MODULES = ['netCDF4', 'pygeogrids', 'pygeogrids.grids']
+    for mod_name in MOCK_MODULES:
+        sys.modules[mod_name] = mock.Mock()
     import inspect
     from sphinx import apidoc
 
@@ -63,7 +68,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'gldas'
-copyright = u'2015, Andreea Plocon'
+copyright = u'2016, TU Wien'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -214,7 +219,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
     ('index', 'user_guide.tex', u'gldas Documentation',
-     u'Andreea Plocon', 'manual'),
+     u'TU Wien', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

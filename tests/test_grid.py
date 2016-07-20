@@ -1,4 +1,4 @@
-from gldas.GLDAS_NOAH.grid import GLDAS025Cellgrid
+from gldas.grid import GLDAS025Cellgrid
 
 
 def test_GLDAS025_cell_grid():
