@@ -11,7 +11,7 @@ from pygeobase.object_base import Image
 
 from datetime import timedelta
 
-from gldas.GLDAS_NOAH.grid import GLDAS025Cellgrid
+from gldas.grid import GLDAS025Cellgrid
 
 
 class GLDAS025Img(ImageBase):
