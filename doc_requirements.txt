@@ -1,3 +1,5 @@
 mock
 numpy
 pygeobase
+datedown
+trollsift
