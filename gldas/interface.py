@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import warnings
 import numpy as np
 
@@ -14,9 +16,9 @@ from datetime import timedelta
 from gldas.grid import GLDAS025Cellgrid
 
 
-class GLDAS025Img(ImageBase):
+class GLDAS_Noah_v1_025Img(ImageBase):
     """
-    Class for reading one GLDAS grib file
+    Class for reading one GLDAS Noah v1 grib file in 0.25° grid.
 
     Parameters
     ----------
@@ -35,7 +37,7 @@ class GLDAS025Img(ImageBase):
     """
 
     def __init__(self, filename, mode='r', parameter='086_L1'):
-        super(GLDAS025Img, self).__init__(filename, mode=mode)
+        super(GLDAS_Noah_v1_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
             parameter = [parameter]
@@ -109,7 +111,7 @@ class GLDAS025Img(ImageBase):
         pass
 
 
-class GLDAS025Ds(MultiTemporalImageBase):
+class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
     """
     Class for reading GLDAS images in grib format.
 
@@ -133,12 +135,12 @@ class GLDAS025Ds(MultiTemporalImageBase):
 
         sub_path = ['%Y', '%j']
         filename_templ = "GLDAS_NOAH025SUBP_3H.A{datetime}.001.*.grb"
-        super(GLDAS025Ds, self).__init__(data_path, GLDAS025Img,
-                                         fname_templ=filename_templ,
-                                         datetime_format="%Y%j.%H%M",
-                                         subpath_templ=sub_path,
-                                         exact_templ=False,
-                                         ioclass_kws=ioclass_kws)
+        super(GLDAS_Noah_v1_025Ds, self).__init__(data_path, GLDAS_Noah_v1_025Img,
+                                                  fname_templ=filename_templ,
+                                                  datetime_format="%Y%j.%H%M",
+                                                  subpath_templ=sub_path,
+                                                  exact_templ=False,
+                                                  ioclass_kws=ioclass_kws)
 
     def tstamps_for_daterange(self, start_date, end_date):
         """

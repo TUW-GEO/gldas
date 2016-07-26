@@ -2,17 +2,17 @@ import os
 
 from datetime import datetime
 
-from gldas.interface import GLDAS025Ds
-from gldas.interface import GLDAS025Img
+from gldas.interface import GLDAS_Noah_v1_025Ds
+from gldas.interface import GLDAS_Noah_v1_025Img
 
 
-def test_GLDAS025Ds_img_reading():
+def test_GLDAS_Noah_v1_025Ds_img_reading():
 
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
-    img = GLDAS025Ds(data_path=os.path.join(os.path.dirname(__file__),
-                                            'test-data',
-                                            'GLDAS_NOAH_image_data'),
-                     parameter=parameter)
+    img = GLDAS_Noah_v1_025Ds(data_path=os.path.join(os.path.dirname(__file__),
+                                                     'test-data',
+                                                     'GLDAS_NOAH_image_data'),
+                              parameter=parameter)
 
     image = img.read(
         datetime(2015, 1, 1, 0))
@@ -28,16 +28,16 @@ def test_GLDAS025Ds_img_reading():
     assert image.lon.shape == image.lat.shape
 
 
-def test_GLDAS025Img_img_reading():
+def test_GLDAS_Noah_v1_025Img_img_reading():
 
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
-    img = GLDAS025Img(os.path.join(os.path.dirname(__file__),
-                                   'test-data',
-                                   'GLDAS_NOAH_image_data',
-                                   '2015',
-                                   '001',
-                                   'GLDAS_NOAH025SUBP_3H.A2015001.0000.001.2015037193230.grb'),
-                      parameter=parameter)
+    img = GLDAS_Noah_v1_025Img(os.path.join(os.path.dirname(__file__),
+                                            'test-data',
+                                            'GLDAS_NOAH_image_data',
+                                            '2015',
+                                            '001',
+                                            'GLDAS_NOAH025SUBP_3H.A2015001.0000.001.2015037193230.grb'),
+                               parameter=parameter)
 
     image = img.read()
 
