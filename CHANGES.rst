@@ -5,6 +5,5 @@ Changelog
 Version 0.1
 ===========
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- First release. Support for Downloading and reading GLDAS Noah v1 0.25 degree
+  data.
