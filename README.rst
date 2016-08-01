@@ -19,6 +19,28 @@ Readers and converters for data from the `GLDAS Noah Land Surface Model
 
 Works great in combination with `pytesmo <https://github.com/TUW-GEO/pytesmo>`_.
 
+Installation
+============
+
+Setup of a complete environment with `conda
+<http://conda.pydata.org/miniconda.html>`_ can be performed using the following
+commands:
+
+.. code-block:: shell
+
+  conda create -q -n gldas-environment -c conda-forge numpy netCDF4 pyproj pygrib
+  source activate gldas-environment
+  pip install gldas
+
+This will also try to install pygrib for reading the GLDAS grib files. If this
+does not work then please consult the `pygrib manual
+<http://jswhit.github.io/pygrib/docs/>`_.
+
+.. note::
+
+   Reading grib files does not work on Windows as far as we know. It might be
+   possible to compile the ECMWF C library but we have not done it yet.
+
 Downloading products
 ====================
 

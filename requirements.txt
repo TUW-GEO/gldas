@@ -1,4 +1,3 @@
-pykdtree
 pyproj
 pygeogrids
 pygrib
