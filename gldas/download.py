@@ -64,7 +64,7 @@ def parse_args(args):
 
         return args
 
-def gldas_folder_get_start_end(
+def gldas_folder_get_first_last(
         root,
         fmt="GLDAS_NOAH025SUBP_3H.A{time:%Y%j.%H%M}.001.{production_time:%Y%j%H%M%S}.grb",
         subpaths=['{:%Y}', '{:%j}']):
