@@ -28,6 +28,14 @@ NASA's Earthdata portal. Instructions for can be found `here
 
 After that you can use the command line program ``gldas_download``.
 
+.. code::
+
+   mkdir ~/workspace/gldas_data
+   gldas_download ~/workspace/gldas_data
+
+would download GLDAS Noah version 1 in 0.25 degree sampling into the folder
+``~/workspace/gldas_data``. For more options run ``gldas_download -h``.
+
 Supported Products
 ==================
 

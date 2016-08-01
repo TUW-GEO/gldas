@@ -14,55 +14,9 @@ from datedown.dates import n_hourly
 from datedown.urlcreator import create_dt_url
 from datedown.fname_creator import create_dt_fpath
 from datedown.interface import download_by_dt
+from datedown.down import download
 
 
-if __name__ == '__main__':
-
-    # download GLDASv1_025
-    host = 'hydro1.sci.gsfc.nasa.gov'
-    server_path = '/data/s4pa/GLDAS_V1/GLDAS_NOAH025SUBP_3H'
-
-    raw = '.../raw_GLDAS/'
-    download_path = '.../raw_GLDAS/'
-
-
-def parse_args(args):
-    """
-    Parse command line parameters for recursive download
-
-    :param args: command line parameters as list of strings
-    :return: command line parameters as :obj:`argparse.Namespace`
-    """
-    parser = argparse.ArgumentParser(
-        description="Download GLDAS data.")
-    parser.add_argument("localroot",
-                        help='Root of local filesystem where the data is stored.')
-    parser.add_argument("-s", "--start", type=mkdate,
-                        help=("Startdate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
-                              "If not given then the target folder is scanned for a start date."
-                              "If no data is found there then the first available date of the product is used."))
-    parser.add_argument("-e", "end", type=mkdate,
-                        help=("Enddate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
-                              "If not given then the current date is used."))
-    parser.add_argument("--product", choices=["GLDAS_Noah_v1_025"], default="GLDAS_Noah_v1_025",
-                        help='GLDAS product to download.')
-    parser.add_argument("--username",
-                        help='Username to use for download.')
-    parser.add_argument("--password",
-                        help='password to use for download.')
-    parser.add_argument("--n_proc", default=1, type=int,
-                        help='Number of parallel processes to use for downloading.')
-    args = parser.parse_args(args)
-    # set defaults that can not be handled by argparse
-
-    if args.start is None or args.end is None:
-        start, end = gldas_folder_get_start_end(args.localroot)
-        if args.start is None:
-            args.start = start
-        if args.end is None:
-            args.end = end
-
-        return args
 
 def gldas_folder_get_first_last(
         root,
@@ -157,10 +111,65 @@ def get_gldas_start_date(product):
     dt_dict = {'GLDAS_Noah_v1_025': datetime(2000,2,24,0)}
     return dt_dict[product]
 
+
+def parse_args(args):
+    """
+    Parse command line parameters for recursive download
+
+    :param args: command line parameters as list of strings
+    :return: command line parameters as :obj:`argparse.Namespace`
+    """
+    parser = argparse.ArgumentParser(
+        description="Download GLDAS data.")
+    parser.add_argument("localroot",
+                        help='Root of local filesystem where the data is stored.')
+    parser.add_argument("-s", "--start", type=mkdate,
+                        help=("Startdate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
+                              "If not given then the target folder is scanned for a start date."
+                              "If no data is found there then the first available date of the product is used."))
+    parser.add_argument("-e", "--end", type=mkdate,
+                        help=("Enddate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
+                              "If not given then the current date is used."))
+    parser.add_argument("--product", choices=["GLDAS_Noah_v1_025"], default="GLDAS_Noah_v1_025",
+                        help='GLDAS product to download.')
+    parser.add_argument("--username",
+                        help='Username to use for download.')
+    parser.add_argument("--password",
+                        help='password to use for download.')
+    parser.add_argument("--n_proc", default=1, type=int,
+                        help='Number of parallel processes to use for downloading.')
+    args = parser.parse_args(args)
+    # set defaults that can not be handled by argparse
+
+    if args.start is None or args.end is None:
+        first, last = gldas_folder_get_first_last(args.localroot)
+        if args.start is None:
+            if last is None:
+                args.start = datetime(2000,2,24)
+            else:
+                args.start = last
+        if args.end is None:
+            args.end = datetime.now()
+
+    prod_urls = {'GLDAS_Noah_v1_025':
+                 {'root': 'hydro1.sci.gsfc.nasa.gov',
+                  'dirs': ['data','s4pa',
+                           'GLDAS_V1','GLDAS_NOAH025SUBP_3H',
+                           '%Y', '%j']}}
+
+    args.urlroot = prod_urls[args.product]['root']
+    args.urlsubdirs = prod_urls[args.product]['dirs']
+    args.localsubdirs = ['%Y', '%j']
+
+    print("Downloading data from {} to {} into folder {}.".format(args.start.isoformat(),
+                                                                  args.end.isoformat(),
+                                                                  args.localroot))
+    return args
+
 def main(args):
     args = parse_args(args)
 
-    dts = list(n_hourly(args.start, args.end, "3H"))
+    dts = list(n_hourly(args.start, args.end, 3))
     url_create_fn = partial(create_dt_url, root=args.urlroot,
                             fname='', subdirs=args.urlsubdirs)
     fname_create_fn = partial(create_dt_fpath, root=args.localroot,
