@@ -34,9 +34,11 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                         '155', '204', '205', '234', '235']
         parameters to read, see GLDAS documentation for more information
         Default : '086_L1'
+    array_1D: boolean, optional
+        if set then the data is read into 1D arrays. Needed for some legacy code.
     """
 
-    def __init__(self, filename, mode='r', parameter='086_L1'):
+    def __init__(self, filename, mode='r', parameter='086_L1', array_1D=False):
         super(GLDAS_Noah_v1_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
@@ -44,6 +46,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
         self.parameters = parameter
         self.fill_values = np.repeat(9999., 1440 * 120)
         self.grid = GLDAS025Cellgrid()
+        self.array_1D = array_1D
 
     def read(self, timestamp=None):
 
@@ -95,11 +98,21 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                 return_img[parameter] = np.empty(self.grid.n_gpi)
                 return_img[parameter].fill(np.nan)
 
-        return Image(self.grid.activearrlon,
-                     self.grid.activearrlat,
-                     return_img,
-                     {},
-                     timestamp)
+        if self.array_1D:
+            return Image(self.grid.activearrlon,
+                         self.grid.activearrlat,
+                         return_img,
+                         {},
+                         timestamp)
+        else:
+            for key in return_img:
+                return_img[key] = np.flipud(return_img [key].reshape((720, 1440)))
+
+            return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
+                         np.flipud(self.grid.activearrlat.reshape((720, 1440))),
+                         return_img,
+                         {},
+                         timestamp)
 
     def write(self, data):
         raise NotImplementedError()
@@ -127,11 +140,14 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
                         '155', '204', '205', '234', '235']
         parameters to read, see GLDAS documentation for more information
         Default : '086_L1'
+    array_1D: boolean, optional
+        if set then the data is read into 1D arrays. Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='086_L1'):
+    def __init__(self, data_path, parameter='086_L1', array_1D=False):
 
-        ioclass_kws = {'parameter': parameter}
+        ioclass_kws = {'parameter': parameter,
+                       'array_1D': array_1D}
 
         sub_path = ['%Y', '%j']
         filename_templ = "GLDAS_NOAH025SUBP_3H.A{datetime}.001.*.grb"
