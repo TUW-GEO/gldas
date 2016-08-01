@@ -62,5 +62,5 @@ The filename is automatically built from the given date.
 
 
 For reading all image between two dates the
-:py:method:`gldas.interface.GLDAS_Noah_v1_025Ds.iter_images` iterator can be
+:py:meth:`gldas.interface.GLDAS_Noah_v1_025Ds.iter_images` iterator can be
 used.

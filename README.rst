@@ -23,7 +23,7 @@ Downloading products
 ====================
 
 In order to download GLDAS NOAH products you have to register an account with
-NASA's Earthdata portal. Instructions for can be found `here
+NASA's Earthdata portal. Instructions can be found `here
 <http://disc.sci.gsfc.nasa.gov/registration/registration-for-data-access>`_.
 
 After that you can use the command line program ``gldas_download``.

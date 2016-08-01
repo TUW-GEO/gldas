@@ -30,6 +30,10 @@ if on_rtd:
     for mod_name in MOCK_MODULES:
         sys.modules[mod_name] = mock.Mock()
     import inspect
+    os.environ['SPHINX_APIDOC_OPTIONS']=','.join(['members',
+                                                  'undoc-members',
+                                                  'inherited-members',
+                                                  'show-inheritance'])
     from sphinx import apidoc
 
     __location__ = os.path.join(os.getcwd(), os.path.dirname(
