@@ -106,7 +106,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                          timestamp)
         else:
             for key in return_img:
-                return_img[key] = np.flipud(return_img [key].reshape((720, 1440)))
+                return_img[key] = np.flipud(return_img[key].reshape((720, 1440)))
 
             return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
                          np.flipud(self.grid.activearrlat.reshape((720, 1440))),
@@ -186,7 +186,7 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
 
         timestamps = []
         diff = end_date - start_date
-        for i in xrange(diff.days + 1):
+        for i in range(diff.days + 1):
             daily_dates = start_date + timedelta(days=i) + img_offsets
             timestamps.extend(daily_dates.tolist())
 
