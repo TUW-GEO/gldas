@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Version 0.2
+===========
+
+- Fix Python 3 bug when iterating over multiple images.
+
 Version 0.1
 ===========
 
