@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 
 from datetime import datetime
@@ -27,6 +28,9 @@ def test_GLDAS_Noah_v1_025Ds_img_reading():
     assert image.data['051'][998529] == 0
     assert image.lon.shape == (360 * 180 * (1 / 0.25)**2,)
     assert image.lon.shape == image.lat.shape
+    assert sorted(list(image.metadata.keys())) == sorted(parameter)
+    assert image.metadata['085_L1']['units'] == u'K'
+    assert image.metadata['085_L1']['long_name'] == u'ST Surface temperature of soil K'
 
 
 def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():

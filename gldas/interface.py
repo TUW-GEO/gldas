@@ -2,6 +2,7 @@
 
 import warnings
 import numpy as np
+import os
 
 try:
     import pygrib
@@ -10,6 +11,8 @@ except ImportError:
 
 from pygeobase.io_base import ImageBase, MultiTemporalImageBase
 from pygeobase.object_base import Image
+import pygeogrids
+from pynetcf.time_series import GriddedNcOrthoMultiTs
 
 from datetime import timedelta
 
@@ -51,6 +54,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
     def read(self, timestamp=None):
 
         return_img = {}
+        return_metadata = {}
         layers = {'085': 1, '086': 1}
 
         try:
@@ -69,6 +73,11 @@ class GLDAS_Noah_v1_025Img(ImageBase):
             if message['indicatorOfParameter'] in parameter_ids:
                 parameter_id = '{:03d}'.format(message['indicatorOfParameter'])
 
+                param_metadata = {}
+                # read metadata in any case
+                param_metadata['units'] = message['units']
+                param_metadata['long_name'] = message['parameterName']
+
                 if parameter_id in layers.keys():
                     parameter = '_'.join((parameter_id, 'L' +
                                           str(layers[parameter_id])))
@@ -77,8 +86,10 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                         param_data = np.concatenate((
                             self.fill_values,
                             np.ma.getdata(message['values']).flatten()))
+
                         return_img[parameter] = param_data[
                             self.grid.activegpis]
+                        return_metadata[parameter] = param_metadata
                     layers[parameter_id] += 1
 
                 else:
@@ -87,6 +98,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                         self.fill_values,
                         np.ma.getdata(message['values']).flatten()))
                     return_img[parameter] = param_data[self.grid.activegpis]
+                    return_metadata[parameter] = param_metadata
 
         grbs.close()
         for parameter in self.parameters:
@@ -102,16 +114,18 @@ class GLDAS_Noah_v1_025Img(ImageBase):
             return Image(self.grid.activearrlon,
                          self.grid.activearrlat,
                          return_img,
-                         {},
+                         return_metadata,
                          timestamp)
         else:
             for key in return_img:
-                return_img[key] = np.flipud(return_img[key].reshape((720, 1440)))
+                return_img[key] = np.flipud(
+                    return_img[key].reshape((720, 1440)))
 
             return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
-                         np.flipud(self.grid.activearrlat.reshape((720, 1440))),
+                         np.flipud(
+                             self.grid.activearrlat.reshape((720, 1440))),
                          return_img,
-                         {},
+                         return_metadata,
                          timestamp)
 
     def write(self, data):
@@ -191,3 +205,14 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
             timestamps.extend(daily_dates.tolist())
 
         return timestamps
+
+
+class GLDASTs(GriddedNcOrthoMultiTs):
+
+    def __init__(self, ts_path, grid_path=None):
+
+        if grid_path is None:
+            grid_path = os.path.join(ts_path, "grid.nc")
+
+        grid = pygeogrids.netcdf.load_grid(grid_path)
+        super(GLDASTs, self).__init__(ts_path, grid)

@@ -5,3 +5,8 @@ numpy
 pygeobase
 datedown>=0.2
 trollsift
+pytesmo
+netcdf4
+pyresample
+repurpose
+pynetcf
