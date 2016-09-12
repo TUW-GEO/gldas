@@ -24,16 +24,11 @@ import sys
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
-    import mock
-
-    MOCK_MODULES = ['netCDF4', 'pygeogrids', 'pygeogrids.grids']
-    for mod_name in MOCK_MODULES:
-        sys.modules[mod_name] = mock.Mock()
     import inspect
-    os.environ['SPHINX_APIDOC_OPTIONS']=','.join(['members',
-                                                  'undoc-members',
-                                                  'inherited-members',
-                                                  'show-inheritance'])
+    os.environ['SPHINX_APIDOC_OPTIONS'] = ','.join(['members',
+                                                    'undoc-members',
+                                                    'inherited-members',
+                                                    'show-inheritance'])
     from sphinx import apidoc
 
     __location__ = os.path.join(os.getcwd(), os.path.dirname(
@@ -125,7 +120,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

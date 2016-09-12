@@ -1,0 +1,18 @@
+name: gldas-docs
+channels:
+  - conda-forge
+dependencies:
+- matplotlib
+- netcdf4=1.2.2
+- pandas
+- basemap
+- pygrib
+- scipy
+- pyresample
+- pip:
+    - pygeobase
+    - https://software.ecmwf.int/wiki/download/attachments/56664858/ecmwf-api-client-python.tgz#egg=ecmwf_api_client
+    - pynetcf
+    - repurpose
+    - pytesmo
+    - pygeogrids

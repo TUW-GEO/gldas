@@ -1,6 +1,9 @@
 .. include:: ../README.rst
 
 .. include:: reading.rst
+
+.. include:: img2ts.rst
+
 Contents
 ========
 
