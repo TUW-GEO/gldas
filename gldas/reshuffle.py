@@ -29,13 +29,19 @@ time series format using the repurpose package
 import os
 import sys
 import argparse
-import numpy as np
+from datetime import datetime
 
 from pygeogrids import BasicGrid
 
 from repurpose.img2ts import Img2Ts
 from gldas.interface import GLDAS_Noah_v1_025Ds
-from ecmwf_models.download import mkdate
+
+
+def mkdate(datestring):
+    if len(datestring) == 10:
+        return datetime.strptime(datestring, '%Y-%m-%d')
+    if len(datestring) == 16:
+        return datetime.strptime(datestring, '%Y-%m-%dT%H:%M')
 
 
 def reshuffle(input_root, outputpath,
