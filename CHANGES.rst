@@ -6,6 +6,7 @@ Version 0.2
 ===========
 
 - Fix Python 3 bug when iterating over multiple images.
+- Add reshuffling to time series format and reading of time series.
 
 Version 0.1
 ===========
