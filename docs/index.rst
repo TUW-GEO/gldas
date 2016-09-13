@@ -10,6 +10,8 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   Reading <reading>
+   Conversion to time series <img2ts>
    License <license>
    Authors <authors>
    Changelog <changes>
