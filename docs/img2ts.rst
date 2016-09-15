@@ -26,7 +26,7 @@ program. An example would be:
 
    gldas_repurpose /gldas_data /timeseries/data 2000-01-01 2001-01-01 085_L1 085_L2
 
-Which would take GLDAS Interim data stored in ``/gldas_data`` from January 1st
+Which would take GLDAS Noah data stored in ``/gldas_data`` from January 1st
 2000 to January 1st 2001 and store the parameters 085_L1 and 085_L2 as time
 series in the folder ``/timeseries/data``.
 
