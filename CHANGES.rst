@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 0.3
+===========
+
+- Fix download with new URL
+- Only download grb and xml files
+
 Version 0.2
 ===========
 
