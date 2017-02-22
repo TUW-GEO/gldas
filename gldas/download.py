@@ -176,8 +176,7 @@ def main(args):
     down_func = partial(download,
                         num_proc=args.n_proc,
                         username=args.username,
-                        password=args.password,
-                        recursive=True)
+                        password="'" + args.password + "'",
                         recursive=True,
                         filetypes=["grb", "xml"])
     download_by_dt(dts, url_create_fn,
