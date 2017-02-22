@@ -3,7 +3,7 @@ pygeogrids
 pygrib
 numpy
 pygeobase
-datedown>=0.2
+datedown>=0.3
 trollsift
 pytesmo
 netcdf4

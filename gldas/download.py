@@ -178,6 +178,8 @@ def main(args):
                         username=args.username,
                         password=args.password,
                         recursive=True)
+                        recursive=True,
+                        filetypes=["grb", "xml"])
     download_by_dt(dts, url_create_fn,
                    fname_create_fn, down_func,
                    recursive=True)
