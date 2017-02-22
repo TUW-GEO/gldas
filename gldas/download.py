@@ -10,7 +10,7 @@ from functools import partial
 import trollsift.parser as parser
 from datetime import datetime
 from datedown.interface import mkdate
-from datedown.dates import n_hourly
+from datedown.dates import daily
 from datedown.urlcreator import create_dt_url
 from datedown.fname_creator import create_dt_fpath
 from datedown.interface import download_by_dt
@@ -152,9 +152,8 @@ def parse_args(args):
             args.end = datetime.now()
 
     prod_urls = {'GLDAS_Noah_v1_025':
-                 {'root': 'hydro1.sci.gsfc.nasa.gov',
-                  'dirs': ['data','s4pa',
-                           'GLDAS_V1','GLDAS_NOAH025SUBP_3H',
+                 {'root': 'https://hydro1.sci.gsfc.nasa.gov',
+                  'dirs': ['data', 'GLDAS_V1','GLDAS_NOAH025SUBP_3H',
                            '%Y', '%j']}}
 
     args.urlroot = prod_urls[args.product]['root']
@@ -169,7 +168,7 @@ def parse_args(args):
 def main(args):
     args = parse_args(args)
 
-    dts = list(n_hourly(args.start, args.end, 3))
+    dts = list(daily(args.start, args.end))
     url_create_fn = partial(create_dt_url, root=args.urlroot,
                             fname='', subdirs=args.urlsubdirs)
     fname_create_fn = partial(create_dt_fpath, root=args.localroot,
