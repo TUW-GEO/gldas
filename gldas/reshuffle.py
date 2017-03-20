@@ -34,9 +34,38 @@ from datetime import datetime
 from pygeogrids import BasicGrid
 
 from repurpose.img2ts import Img2Ts
-from gldas.interface import GLDAS_Noah_v1_025Ds
+from gldas.interface import GLDAS_Noah_v1_025Ds,GLDAS_Noah_v21_025Ds
 
-
+def get_filetype(inpath):
+    '''
+    Tries to find out the file type by searching for
+    grib or nc files two subdirectories into the passed input path.
+    If function fails, grib is assumed.
+    
+    Parameters
+    ------------
+    input_root: string
+        input path where era interim data was downloaded
+    '''
+    
+    onedown=os.path.join(inpath,os.listdir(inpath)[0])
+    twodown=os.path.join(onedown,os.listdir(onedown)[0])
+            
+    filelist=[]
+    for path, subdirs,files in os.walk(twodown):
+        for name in files:
+            filename,extension=os.path.splitext(name)
+            filelist.append(extension)
+            
+    if '.nc4' in filelist and '.grb' not in filelist:
+        return 'netCDF'
+    elif '.grb' in filelist and '.nc4' not in filelist:
+        return 'grib'
+    else:
+        #if file type cannot be detected, guess grib
+        return 'grib'
+        
+        
 def mkdate(datestring):
     if len(datestring) == 10:
         return datetime.strptime(datestring, '%Y-%m-%d')
@@ -67,8 +96,12 @@ def reshuffle(input_root, outputpath,
         How many images to read at once before writing time series.
     """
 
-    input_dataset = GLDAS_Noah_v1_025Ds(input_root, parameters,
-                                        array_1D=True)
+    if get_filetype(input_root) == 'grib':
+        input_dataset = GLDAS_Noah_v1_025Ds(input_root, parameters,
+                                            array_1D=True)
+    else:
+        input_dataset = GLDAS_Noah_v21_025Ds(input_root, parameters,
+                                             array_1D=True)
 
     if not os.path.exists(outputpath):
         os.makedirs(outputpath)
