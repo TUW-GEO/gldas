@@ -90,7 +90,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
                     return_img[parameter]
                 except KeyError:
                     path, thefile = os.path.split(self.filename)
-                    print ('%s in %s is corrupt - filling image with NaN values')%(parameter,thefile)
+                    print ('%s in %s is corrupt - filling image with NaN values' %(parameter,thefile))
                     return_img[parameter]  = np.empty(self.grid.n_gpi).fill(np.nan)
                     return_metadata['corrupt_parameters'].append()
                     
