@@ -61,9 +61,10 @@ would download GLDAS Noah version 1 in 0.25 degree sampling into the folder
 Supported Products
 ==================
 
-At the moment this package only supports GLDAS Noah data version 1 in grib
-format with a spatial sampling of 0.25 degrees. It should be easy to extend the
-package to support other GLDAS based products. This will be done as need arises.
+At the moment this package supports GLDAS Noah data version 1 in grib
+format and GLDAS Noah data version 2.1 in netCDF format with a spatial sampling of 0.25 degrees. 
+It should be easy to extend the package to support other GLDAS based products. 
+This will be done as need arises.
 
 Documentation
 =============
