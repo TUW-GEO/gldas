@@ -94,7 +94,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
                     return_img[parameter]  = np.empty(self.grid.n_gpi).fill(np.nan)
                     return_metadata['corrupt_parameters'].append()
                     
-	dataset.close()
+        dataset.close()
         if self.array_1D:
             return Image(self.grid.activearrlon,
                          self.grid.activearrlat,
