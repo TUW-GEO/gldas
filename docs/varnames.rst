@@ -1,8 +1,8 @@
 Variable naming for different versions of GLDAS NOAH
 ====================================================
 
-- Geophysical parameters are called using their PDS IDs in GLDAS 1.0 and GLDAS 2.0.
-    - PDS IDs coincide for GLDAS 1.0 GLDAS 2.0.
+- Geophysical parameters are called using their PDS IDs for GLDAS 1.0 and GLDAS 2.0 datasets.
+    - PDS IDs coincide for GLDAS 1.0 and GLDAS 2.0.
     - A full list of PDS IDs can be found in the *README* file for `GLDAS 1.0 <https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS_V1/README.GLDAS.pdf>`_
       
 - For GLDAS 2.1 parameters are called using more comprehensible variable names.
