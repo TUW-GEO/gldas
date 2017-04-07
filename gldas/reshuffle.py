@@ -45,7 +45,7 @@ def get_filetype(inpath):
     Parameters
     ------------
     input_root: string
-        input path where era interim data was downloaded
+        input path where GLDAS data was downloaded
     '''
     
     onedown=os.path.join(inpath,os.listdir(inpath)[0])
