@@ -7,7 +7,7 @@ from gldas.download import get_last_formatted_dir_in_dir
 from gldas.download import get_first_formatted_dir_in_dir
 from gldas.download import get_last_gldas_folder
 from gldas.download import get_first_gldas_folder
-from gldas.download import gldas_folder_get_first_last
+from gldas.download import gldas_folder_get_version_first_last
 
 def test_get_last_dir_in_dir():
     path = os.path.join(os.path.dirname(__file__),
@@ -59,8 +59,11 @@ def test_get_first_gldas_folder_no_folder():
 def test_gldas_get_start_end():
     path = os.path.join(os.path.dirname(__file__),
                         'test-data', 'GLDAS_NOAH_image_data')
-    start, end = gldas_folder_get_first_last(path)
+    version, start, end = gldas_folder_get_version_first_last(path)
+    version_should='GLDAS_Noah_v21_025'
     start_should = datetime(2015,1,1)
     end_should = datetime(2015,1,1)
+    assert version == version_should
     assert end == end_should
     assert start == start_should
+    
