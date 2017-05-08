@@ -128,7 +128,8 @@ def parse_args(args):
     :return: command line parameters as :obj:`argparse.Namespace`
     """
     parser = argparse.ArgumentParser(
-        description="Download GLDAS data.")
+        description="Download GLDAS data.",
+        formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("localroot",
                         help='Root of local filesystem where the data is stored.')
     parser.add_argument("-s", "--start", type=mkdate,
@@ -138,8 +139,14 @@ def parse_args(args):
     parser.add_argument("-e", "--end", type=mkdate,
                         help=("Enddate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
                               "If not given then the current date is used."))
+
+    help_string = '\n'.join(['GLDAS product to download.',
+                             'GLDAS_Noah_v20_025 available from {}',
+                             'GLDAS_Noah_v21_025 available from {}'])
+    help_string = help_string.format(get_gldas_start_date('GLDAS_Noah_v20_025'),
+                                     get_gldas_start_date('GLDAS_Noah_v21_025'))
     parser.add_argument("--product", choices=["GLDAS_Noah_v20_025", "GLDAS_Noah_v21_025"], default="GLDAS_Noah_v20_025",
-                        help='GLDAS product to download. Dataset available from %s (%s)'%(get_gldas_start_date('GLDAS_Noah_v20_025'),'http://gldas.readthedocs.io'))
+                        help=help_string)
     parser.add_argument("--username",
                         help='Username to use for download.')
     parser.add_argument("--password",
