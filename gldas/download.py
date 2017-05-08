@@ -139,7 +139,7 @@ def parse_args(args):
                         help=("Enddate. Either in format YYYY-MM-DD or YYYY-MM-DDTHH:MM."
                               "If not given then the current date is used."))
     parser.add_argument("--product", choices=["GLDAS_Noah_v20_025", "GLDAS_Noah_v21_025"], default="GLDAS_Noah_v20_025",
-                        help='GLDAS product to download. GLDAS_Noah_v1_025 data depreciated and replaced by newer versions.')
+                        help='GLDAS product to download. Dataset available from %s (%s)'%(get_gldas_start_date('GLDAS_Noah_v20_025'),'http://gldas.readthedocs.io'))
     parser.add_argument("--username",
                         help='Username to use for download.')
     parser.add_argument("--password",
