@@ -152,8 +152,7 @@ def parse_args(args):
     #Compare versions to prevent mixing data sets
     version, first, last = gldas_folder_get_version_first_last(args.localroot)
     if args.product and version and (args.product!=version):
-	raise Exception ('Error: Found products of different version ({}) in {}. Abort download!'.format(version,
-												         args.localroot))
+        raise Exception ('Error: Found products of different version ({}) in {}. Abort download!'.format(version,args.localroot))
     if args.start is None or args.end is None:
         if not args.product:
             args.product=version
@@ -210,5 +209,3 @@ def main(args):
 
 def run():
     main(sys.argv[1:])
- 
-
