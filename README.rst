@@ -55,14 +55,14 @@ After that you can use the command line program ``gldas_download``.
    mkdir ~/workspace/gldas_data
    gldas_download ~/workspace/gldas_data
 
-would download GLDAS Noah version 1 in 0.25 degree sampling into the folder
+would download GLDAS Noah version 2.0 in 0.25 degree sampling into the folder
 ``~/workspace/gldas_data``. For more options run ``gldas_download -h``.
 
 Supported Products
 ==================
 
 At the moment this package supports GLDAS Noah data version 1 in grib
-format and GLDAS Noah data version 2.1 in netCDF format with a spatial sampling of 0.25 degrees. 
+format (reading, time series creation) and GLDAS Noah data version 2.0 and version 2.1 in netCDF format (download, reading, time series creation with a spatial sampling of 0.25 degrees. 
 It should be easy to extend the package to support other GLDAS based products. 
 This will be done as need arises.
 
