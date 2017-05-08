@@ -11,6 +11,7 @@ Contents
    :maxdepth: 2
 
    Reading <reading>
+   Variable names <varnames>
    Conversion to time series <img2ts>
    License <license>
    Authors <authors>
