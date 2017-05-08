@@ -115,8 +115,8 @@ def get_first_formatted_dir_in_dir(folder, fmt):
     return first_elem
 
 def get_gldas_start_date(product):
-    dt_dict = {'GLDAS_Noah_v20_025': datetime(1948,01,01,3),
-               'GLDAS_Noah_v21_025':datetime(2000,01,01,3)}
+    dt_dict = {'GLDAS_Noah_v20_025': datetime(1948,1,1,3),
+               'GLDAS_Noah_v21_025':datetime(2000,1,1,3)}
     return dt_dict[product]
 
 
