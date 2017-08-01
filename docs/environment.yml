@@ -3,13 +3,15 @@ channels:
   - conda-forge
 dependencies:
 - matplotlib
-- netcdf4=1.2.2
+- netcdf4
 - pandas
 - basemap
 - pygrib
 - scipy
 - pyresample
-- sphinx>1.5
+- sphinx
+- python=3.6
+- pygrib
 - pip:
     - pygeobase
     - https://software.ecmwf.int/wiki/download/attachments/56664858/ecmwf-api-client-python.tgz#egg=ecmwf_api_client
