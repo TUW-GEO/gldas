@@ -2,10 +2,9 @@
 import os
 from datetime import datetime
 
-from gldas.interface import GLDAS_Noah_v1_025Ds
-from gldas.interface import GLDAS_Noah_v1_025Img
-from gldas.interface import GLDAS_Noah_v21_025Ds
-from gldas.interface import GLDAS_Noah_v21_025Img
+from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v1_025Img
+from gldas.interface import GLDAS_Noah_v21_025Ds, GLDAS_Noah_v21_025Img
+
 
 def test_GLDAS_Noah_v1_025Ds_img_reading():
 

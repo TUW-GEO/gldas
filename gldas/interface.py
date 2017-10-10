@@ -36,20 +36,18 @@ class GLDAS_Noah_v21_025Img(ImageBase):
         if set then the data is read into 1D arrays. Needed for some legacy code.
     """
     
-    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst', array_1D=False):
+    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst', subgrid=None, array_1D=False):
         super(GLDAS_Noah_v21_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
             parameter = [parameter]
         self.parameters = parameter
         self.fill_values = np.repeat(9999., 1440 * 120)
-        self.grid = GLDAS025Cellgrid()
+        self.grid = subgrid if subgrid else GLDAS025Cellgrid()
         self.array_1D = array_1D
     
     def read(self, timestamp=None):
-        
-        #print 'read file: %s' %self.filename
-        #Returns the selected parameters for a gldas image and according metadata
+
         return_img = {}
         return_metadata = {}
         
@@ -143,7 +141,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
         if set then the data is read into 1D arrays. Needed for some legacy code.
     """
 
-    def __init__(self, filename, mode='r', parameter='086_L1', array_1D=False):
+    def __init__(self, filename, mode='r', parameter='086_L1', subgrid=None, array_1D=False):
         super(GLDAS_Noah_v1_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
@@ -255,9 +253,10 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
         if set then the data is read into 1D arrays. Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst', array_1D=False):
+    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst', subgrid=None, array_1D=False):
 
         ioclass_kws = {'parameter': parameter,
+                       'subgrid': subgrid,
                        'array_1D': array_1D}
 
         sub_path = ['%Y','%j']
