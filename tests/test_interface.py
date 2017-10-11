@@ -5,14 +5,13 @@ from datetime import datetime
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v1_025Img
 from gldas.interface import GLDAS_Noah_v21_025Ds, GLDAS_Noah_v21_025Img
 
-
 def test_GLDAS_Noah_v1_025Ds_img_reading():
-
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
     img = GLDAS_Noah_v1_025Ds(data_path=os.path.join(os.path.dirname(__file__),
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
+                              landgrid=None,
                               array_1D=True)
 
     image = img.read(
@@ -33,13 +32,13 @@ def test_GLDAS_Noah_v1_025Ds_img_reading():
 
 
 def test_GLDAS_Noah_v21_025Ds_img_reading():
-
     parameter = ['SoilMoi10_40cm_inst', 'SoilMoi0_10cm_inst', 'SoilTMP0_10cm_inst',
                  'AvgSurfT_inst', 'SWE_inst']
     img = GLDAS_Noah_v21_025Ds(data_path=os.path.join(os.path.dirname(__file__),
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
+                              landgrid=None,
                               array_1D=True)
 
     image = img.read(
@@ -66,6 +65,7 @@ def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
+                              landgrid=None,
                               array_1D=True)
 
     tstamps = img.tstamps_for_daterange(datetime(2000, 1, 1),
@@ -89,6 +89,7 @@ def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
+                              landgrid=None,
                               array_1D=True)
 
     tstamps = img.tstamps_for_daterange(datetime(2000, 1, 1),
@@ -114,6 +115,7 @@ def test_GLDAS_Noah_v1_025Img_img_reading_1D():
                                             '001',
                                             'GLDAS_NOAH025SUBP_3H.A2015001.0000.001.2015037193230.grb'),
                                parameter=parameter,
+                               landgrid=None,
                                array_1D=True)
 
     image = img.read()
@@ -139,6 +141,7 @@ def test_GLDAS_Noah_v21_025Img_img_reading_1D():
                                             '001',
                                             'GLDAS_NOAH025_3H.A20150101.0000.021.nc4'),
                                parameter=parameter,
+                               landgrid=None,
                                array_1D=True)
 
     image = img.read()

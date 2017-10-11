@@ -17,8 +17,9 @@ def test_reshuffle():
     startdate = "2015-01-01"
     enddate = "2015-01-01"
     parameters = ["085_L1", "085_L2"]
+    land_points = 'False'
 
-    args = [inpath, ts_path, startdate, enddate] + parameters
+    args = [inpath, ts_path, startdate, enddate] + parameters + ['--land_points', land_points]
     main(args)
     assert len(glob.glob(os.path.join(ts_path, "*.nc"))) == 2593
     ds = GLDASTs(ts_path)

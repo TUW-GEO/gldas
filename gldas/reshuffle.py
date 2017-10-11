@@ -73,6 +73,11 @@ def mkdate(datestring):
     if len(datestring) == 16:
         return datetime.strptime(datestring, '%Y-%m-%dT%H:%M')
 
+def str2bool(val):
+    if val in ['True', 'true', 't', 'T', '1']:
+        return True
+    else:
+        return False
 
 def reshuffle(input_root, outputpath,
               startdate, enddate,
@@ -154,7 +159,9 @@ def parse_args(args):
                         nargs="+",
                         help=("Parameters to download in numerical format. e.g."
                               "086_L1 086_L2 086_L3 086_L4 for Volumetric soil water layers 1 to 4."))
-
+    parser.add_argument("--land_points", type=str2bool, default='False',
+                        help=("Set True to reshuffle only land points as defined in:"
+                              "https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc"))
     parser.add_argument("--imgbuffer", type=int, default=50,
                         help=("How many images to read at once. Bigger numbers make the "
                               "conversion faster but consume more memory."))
@@ -183,11 +190,5 @@ def run():
     main(sys.argv[1:])
 
 if __name__ == '__main__':
-    # run()
-    from datetime import datetime
-    inroot = r'D:\users\wpreimes\datasets_incomplete\GLDAS-NOAH\gldas21_raw'
-    out = r'D:\users\wpreimes\datasets_incomplete\GLDAS-NOAH\gldas21_outtest'
-    start = datetime(2015,1,1)
-    end = datetime(2015,1,2)
-    parameters = ['SoilMoi0_10cm_inst', 'SoilMoi100_200cm_inst']
-    reshuffle(inroot, out, start, end, parameters, True, 10)
+    run()
+
