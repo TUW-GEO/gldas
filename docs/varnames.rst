@@ -8,7 +8,7 @@ For GLDAS Noah 2.0 and GLDAS Noah 2.1 parameters are called using Variable Names
 A full list of variable names can be found in the `GLDAS 2.x README <https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS/README_GLDAS2.pdf>`_
 
 +-------------+-----------------------+----------------------------------+------------+---------------------------+------------+
-| PDS ID (old)| Variable Name (new)   | Parameter                        | Resolution | Depth/Height Interval [m] | Units      
+| PDS ID (old)| Variable Name (new)   | Parameter                        | Resolution | Depth/Height Interval [m] | Units      |
 +=============+=======================+==================================+============+===========================+============+
 | 086_L1      | SoilMoi0_10cm_inst    | Soil moisture                    | 0.25°      | 0.00 - 0.10               | [K]        |
 +-------------+-----------------------+----------------------------------+------------+---------------------------+------------+
