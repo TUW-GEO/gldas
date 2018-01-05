@@ -110,7 +110,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
                     {str(parameter): param_data[self.grid.activegpis]})
                 return_metadata.update({str(parameter): param_metadata})
 
-            # Check for corrupt files
+                # Check for corrupt files
                 try:
                     return_img[parameter]
                 except KeyError:
