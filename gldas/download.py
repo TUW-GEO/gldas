@@ -176,11 +176,11 @@ def parse_args(args):
             args.end = datetime.now()
 
     prod_urls = {'GLDAS_Noah_v20_025':
-                 {'root':'https://hydro1.sci.gsfc.nasa.gov',
+                 {'root':'hydro1.gesdisc.eosdis.nasa.gov',
                   'dirs':['data','GLDAS','GLDAS_NOAH025_3H.2.0',
                           '%Y','%j']},
                  'GLDAS_Noah_v21_025':
-                 {'root':'https://hydro1.sci.gsfc.nasa.gov',
+                 {'root':'hydro1.gesdisc.eosdis.nasa.gov',
                   'dirs':['data','GLDAS','GLDAS_NOAH025_3H.2.1',
                           '%Y','%j']}}
 
