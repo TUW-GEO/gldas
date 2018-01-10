@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 0.4
+===========
+
+- Add support for GLDAS version 2.1
+- Compress files during reshuffling.
+
 Version 0.3
 ===========
 
