@@ -34,13 +34,13 @@ from pygeogrids import BasicGrid
 
 from repurpose.img2ts import Img2Ts
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v21_025Ds
-
+from gldas.grid import GLDAS025LandGrid
 
 def get_filetype(inpath):
     """
     Tries to find out the file type by searching for
     grib or nc files two subdirectories into the passed input path.
-    If function fails, grib is assumed.
+    If function fails, netcdf is assumed.
 
     Parameters
     ----------
@@ -66,8 +66,8 @@ def get_filetype(inpath):
     elif '.grb' in filelist and '.nc4' not in filelist:
         return 'grib'
     else:
-        # if file type cannot be detected, guess grib
-        return 'grib'
+        # if file type cannot be detected, guess netCDF
+        return 'netCDF'
 
 
 def mkdate(datestring):
@@ -89,16 +89,23 @@ def mkdate(datestring):
     if len(datestring) == 16:
         return datetime.strptime(datestring, '%Y-%m-%dT%H:%M')
 
+def str2bool(val):
+    if val in ['True', 'true', 't', 'T', '1']:
+        return True
+    else:
+        return False
 
-def reshuffle(input_root, outputpath, startdate, enddate, parameters,
+def reshuffle(input_root, outputpath,
+              startdate, enddate,
+              parameters, land_points=True,
               imgbuffer=50):
     """
-    Reshuffle method applied to ERA-Interim data.
+    Reshuffle method applied to GLDAS data.
 
     Parameters
     ----------
     input_root: string
-        input path where era interim data was downloaded
+        input path where gldas data was downloaded
     outputpath : string
         Output path.
     startdate : datetime
@@ -111,11 +118,16 @@ def reshuffle(input_root, outputpath, startdate, enddate, parameters,
         How many images to read at once before writing time series.
     """
 
+    if land_points:
+        landgrid = GLDAS025LandGrid()
+    else:
+        landgrid = None
+
     if get_filetype(input_root) == 'grib':
         input_dataset = GLDAS_Noah_v1_025Ds(input_root, parameters,
                                             array_1D=True)
     else:
-        input_dataset = GLDAS_Noah_v21_025Ds(input_root, parameters,
+        input_dataset = GLDAS_Noah_v21_025Ds(input_root, parameters, landgrid,
                                              array_1D=True)
 
     if not os.path.exists(outputpath):
@@ -126,7 +138,10 @@ def reshuffle(input_root, outputpath, startdate, enddate, parameters,
     # get time series attributes from first day of data.
     data = input_dataset.read(startdate)
     ts_attributes = data.metadata
-    grid = BasicGrid(data.lon, data.lat)
+    if landgrid:
+        grid = landgrid
+    else:
+        grid = BasicGrid(data.lon, data.lat)
 
     reshuffler = Img2Ts(input_dataset=input_dataset, outputpath=outputpath,
                         startdate=startdate, enddate=enddate, input_grid=grid,
@@ -173,6 +188,9 @@ def parse_args(args):
                         help=("Parameters to download in numerical format. "
                               "e.g. 086_L1 086_L2 086_L3 086_L4 for "
                               "Volumetric soil water layers 1 to 4."))
+    parser.add_argument("--land_points", type=str2bool, default='False',
+                        help=("Set True to reshuffle only land points as defined in:"
+                              "https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc"))
 
     parser.add_argument("--imgbuffer", type=int, default=50,
                         help=("How many images to read at once. Bigger "
@@ -201,8 +219,14 @@ def main(args):
     """
     args = parse_args(args)
 
-    reshuffle(args.dataset_root, args.timeseries_root, args.start, args.end,
-              args.parameters, imgbuffer=args.imgbuffer)
+    reshuffle(args.dataset_root,
+              args.timeseries_root,
+              args.start,
+              args.end,
+              args.parameters,
+              land_points=args.land_points,
+              imgbuffer=args.imgbuffer)
+
 
 
 def run():
@@ -210,3 +234,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+
