@@ -71,7 +71,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
         self.parameters = parameter
         self.fill_values = np.repeat(9999., 1440 * 120)
-        self.grid = subgrid if subgrid else GLDAS025Cellgrid()
+        self.grid = GLDAS025Cellgrid() if not subgrid else subgrid
         self.array_1D = array_1D
 
     def read(self, timestamp=None):
@@ -129,7 +129,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
         dataset.close()
 
         if self.array_1D:
-            img = Image(self.grid.activearrlon, self.grid.activearrlat,
+            return Image(self.grid.activearrlon, self.grid.activearrlat,
                         return_img, return_metadata, timestamp)
         else:
             for key in return_img:
@@ -415,3 +415,17 @@ class GLDASTs(GriddedNcOrthoMultiTs):
 
         grid = pygeogrids.netcdf.load_grid(grid_path)
         super(GLDASTs, self).__init__(ts_path, grid)
+
+
+
+if __name__ == '__main__':
+    from datetime import datetime
+    path = '/home/wolfgang/Documents/python_workspace/gldas/tests/test-data/GLDAS_NOAH_image_data'
+    image_path = os.path.join(path,'2015','001','GLDAS_NOAH025_3H.A20150101.0000.021.nc4')
+    img = GLDAS_Noah_v21_025Img(image_path, array_1D=True)
+    image = img.read()
+    image.data
+
+    ds = GLDAS_Noah_v21_025Ds(path, parameter='SoilMoi0_10cm_inst', subgrid=None, array_1D=True)
+    image = ds.read(datetime(2015,1,1,0))
+

@@ -11,7 +11,7 @@ def test_GLDAS_Noah_v1_025Ds_img_reading():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
-                              landgrid=None,
+                              subgrid=None,
                               array_1D=True)
 
     image = img.read(
@@ -38,7 +38,7 @@ def test_GLDAS_Noah_v21_025Ds_img_reading():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
-                              landgrid=None,
+                              subgrid=None,
                               array_1D=True)
 
     image = img.read(
@@ -65,7 +65,7 @@ def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
-                              landgrid=None,
+                              subgrid=None,
                               array_1D=True)
 
     tstamps = img.tstamps_for_daterange(datetime(2000, 1, 1),
@@ -89,7 +89,7 @@ def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
-                              landgrid=None,
+                              subgrid=None,
                               array_1D=True)
 
     tstamps = img.tstamps_for_daterange(datetime(2000, 1, 1),
@@ -115,7 +115,7 @@ def test_GLDAS_Noah_v1_025Img_img_reading_1D():
                                             '001',
                                             'GLDAS_NOAH025SUBP_3H.A2015001.0000.001.2015037193230.grb'),
                                parameter=parameter,
-                               landgrid=None,
+                               subgrid=None,
                                array_1D=True)
 
     image = img.read()
@@ -141,7 +141,7 @@ def test_GLDAS_Noah_v21_025Img_img_reading_1D():
                                             '001',
                                             'GLDAS_NOAH025_3H.A20150101.0000.021.nc4'),
                                parameter=parameter,
-                               landgrid=None,
+                               subgrid=None,
                                array_1D=True)
 
     image = img.read()
@@ -211,3 +211,9 @@ def test_GLDAS_Noah_v21_025Img_img_reading_2D():
     assert round(image.data['SWE_inst'][26,609],3) == 108.24
     assert image.lon.shape == (720, 1440)
     assert image.lon.shape == image.lat.shape
+
+
+
+if __name__ == '__main__':
+    test_GLDAS_Noah_v21_025Ds_img_reading()
+    test_GLDAS_Noah_v21_025Img_img_reading_1D()
