@@ -4,6 +4,7 @@ from datetime import datetime
 
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v1_025Img
 from gldas.interface import GLDAS_Noah_v21_025Ds, GLDAS_Noah_v21_025Img
+from gldas.grid import GLDAS025LandGrid
 
 def test_GLDAS_Noah_v1_025Ds_img_reading():
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
@@ -58,8 +59,39 @@ def test_GLDAS_Noah_v21_025Ds_img_reading():
     assert image.metadata['AvgSurfT_inst']['long_name'] == u'Average Surface Skin temperature'
 
 
-def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
+def test_GLDAS_Noah_v21_025Ds_img_reading_landpoints():
+    landgrid = GLDAS025LandGrid()
 
+    parameter = ['SoilMoi10_40cm_inst', 'SoilMoi0_10cm_inst', 'SoilTMP0_10cm_inst',
+                 'AvgSurfT_inst', 'SWE_inst']
+
+    img = GLDAS_Noah_v21_025Ds(data_path=os.path.join(os.path.dirname(__file__),
+                                                     'test-data',
+                                                     'GLDAS_NOAH_image_data'),
+                              parameter=parameter,
+                              subgrid=landgrid,
+                              array_1D=True)
+
+    image = img.read(
+        datetime(2015, 1, 1, 0))
+
+    assert sorted(image.data.keys()) == sorted(parameter)
+    # gpi for testing on the land grid: 527549, lat: 1.625, lon: -52.625
+    assert image.timestamp == datetime(2015, 1, 1, 0)
+    assert round(image.data['SoilMoi0_10cm_inst'][50000],3) == 26.181
+    assert round(image.data['SoilMoi10_40cm_inst'][50000],3) == 84.558
+    assert round(image.data['SoilTMP0_10cm_inst'][50000],3) == 301.276
+    assert round(image.data['AvgSurfT_inst'][50000],3) == 294.863
+    assert round(image.data['SWE_inst'][50000],3) == 0
+    assert (image.lon.size, image.lat.size) == (landgrid.activearrlat.size,
+                                                landgrid.activearrlon.size)
+    assert sorted(list(image.metadata.keys())) == sorted(parameter)
+    assert image.metadata['AvgSurfT_inst']['units'] == u'K'
+    assert image.metadata['AvgSurfT_inst']['long_name'] == u'Average Surface Skin temperature'
+
+
+def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
+    landgrid = GLDAS025LandGrid()
     parameter = ['086_L2', '086_L1', '085_L1', '138', '132', '051']
     img = GLDAS_Noah_v1_025Ds(data_path=os.path.join(os.path.dirname(__file__),
                                                      'test-data',
@@ -85,7 +117,7 @@ def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
 
     parameter = ['SoilMoi10_40cm_inst', 'SoilMoi0_10cm_inst', 'SoilTMP0_10cm_inst',
                  'AvgSurfT_inst', 'SWE_inst']
-    img = GLDAS_Noah_v1_025Ds(data_path=os.path.join(os.path.dirname(__file__),
+    img = GLDAS_Noah_v21_025Ds(data_path=os.path.join(os.path.dirname(__file__),
                                                      'test-data',
                                                      'GLDAS_NOAH_image_data'),
                               parameter=parameter,
@@ -131,7 +163,7 @@ def test_GLDAS_Noah_v1_025Img_img_reading_1D():
 
 
 def test_GLDAS_Noah_v21_025Img_img_reading_1D():
-
+    landgrid = GLDAS025LandGrid()
     parameter = ['SoilMoi10_40cm_inst', 'SoilMoi0_10cm_inst', 'SoilTMP0_10cm_inst',
                  'AvgSurfT_inst', 'SWE_inst']
     img = GLDAS_Noah_v21_025Img(os.path.join(os.path.dirname(__file__),
@@ -141,19 +173,21 @@ def test_GLDAS_Noah_v21_025Img_img_reading_1D():
                                             '001',
                                             'GLDAS_NOAH025_3H.A20150101.0000.021.nc4'),
                                parameter=parameter,
-                               subgrid=None,
+                               subgrid=landgrid,
                                array_1D=True)
 
     image = img.read()
 
     assert sorted(image.data.keys()) == sorted(parameter)
-    assert round(image.data['SoilMoi0_10cm_inst'][998529],3) == 38.804
-    assert round(image.data['SoilMoi10_40cm_inst'][998529],3) == 131.699
-    assert round(image.data['SoilTMP0_10cm_inst'][998529],3) == 254.506
-    assert round(image.data['AvgSurfT_inst'][998529],3) == 235.553
-    assert round(image.data['SWE_inst'][998529],3) == 108.24
-    assert image.lon.shape == (360 * 180 * (1 / 0.25)**2,)
-    assert image.lon.shape == image.lat.shape
+    # gpi for testing on the land grid: 527549, lat: 1.625, lon: -52.625
+    assert round(image.data['SoilMoi0_10cm_inst'][50000],3) == 26.181
+    assert round(image.data['SoilMoi10_40cm_inst'][50000],3) == 84.558
+    assert round(image.data['SoilTMP0_10cm_inst'][50000],3) == 301.276
+    assert round(image.data['AvgSurfT_inst'][50000],3) == 294.863
+    assert round(image.data['SWE_inst'][50000],3) == 0
+    assert (image.lon.size, image.lat.size) == (landgrid.activearrlat.size,
+                                                landgrid.activearrlon.size)
+
 
 
 def test_GLDAS_Noah_v1_025Img_img_reading_2D():
@@ -185,7 +219,6 @@ def test_GLDAS_Noah_v1_025Img_img_reading_2D():
 
 
 def test_GLDAS_Noah_v21_025Img_img_reading_2D():
-
     parameter = ['SoilMoi10_40cm_inst', 'SoilMoi0_10cm_inst', 'SoilTMP0_10cm_inst',
                  'AvgSurfT_inst', 'SWE_inst']
     img = GLDAS_Noah_v21_025Img(os.path.join(os.path.dirname(__file__),
@@ -214,6 +247,4 @@ def test_GLDAS_Noah_v21_025Img_img_reading_2D():
 
 
 
-if __name__ == '__main__':
-    test_GLDAS_Noah_v21_025Ds_img_reading()
-    test_GLDAS_Noah_v21_025Img_img_reading_1D()
+

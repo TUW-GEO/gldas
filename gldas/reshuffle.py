@@ -35,6 +35,7 @@ from pygeogrids import BasicGrid
 from repurpose.img2ts import Img2Ts
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v21_025Ds
 from gldas.grid import GLDAS025LandGrid
+import warnings
 
 def get_filetype(inpath):
     """
@@ -126,6 +127,8 @@ def reshuffle(input_root, outputpath,
     if get_filetype(input_root) == 'grib':
         input_dataset = GLDAS_Noah_v1_025Ds(input_root, parameters,
                                             array_1D=True)
+        if land_points:
+            warnings.warn('Land Grid is fit to GLDAS 2.x netCDF data')
     else:
         input_dataset = GLDAS_Noah_v21_025Ds(input_root, parameters, landgrid,
                                              array_1D=True)
@@ -201,7 +204,7 @@ def parse_args(args):
     # set defaults that can not be handled by argparse
 
     print("Converting data from {} to"
-          "{} into folder {}.".format(args.start.isoformat(),
+          " {} into folder {}.".format(args.start.isoformat(),
                                       args.end.isoformat(),
                                       args.timeseries_root))
 

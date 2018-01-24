@@ -40,6 +40,7 @@ from gldas.grid import GLDAS025Cellgrid
 from netCDF4 import Dataset
 
 
+
 class GLDAS_Noah_v21_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v2.1 nc file in 0.25 deg grid.
@@ -155,7 +156,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
-    Class for reading one GLDAS Noah v1 grib file in 0.25° grid.
+    Class for reading one GLDAS Noah v1 grib file in 0.25 deg grid.
 
     Parameters
     ----------
@@ -417,15 +418,4 @@ class GLDASTs(GriddedNcOrthoMultiTs):
         super(GLDASTs, self).__init__(ts_path, grid)
 
 
-
-if __name__ == '__main__':
-    from datetime import datetime
-    path = '/home/wolfgang/Documents/python_workspace/gldas/tests/test-data/GLDAS_NOAH_image_data'
-    image_path = os.path.join(path,'2015','001','GLDAS_NOAH025_3H.A20150101.0000.021.nc4')
-    img = GLDAS_Noah_v21_025Img(image_path, array_1D=True)
-    image = img.read()
-    image.data
-
-    ds = GLDAS_Noah_v21_025Ds(path, parameter='SoilMoi0_10cm_inst', subgrid=None, array_1D=True)
-    image = ds.read(datetime(2015,1,1,0))
 
