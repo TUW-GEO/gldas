@@ -8,13 +8,14 @@ into a netCDF file and choosing the correct chunk sizes or a lot of other
 methods. We have chosen to do it in the following way:
 
 - Store only the reduced gaußian grid points since that saves space.
+- Further reduction the amount of stored data by saving only land points if selected.
 - Store the time series in netCDF4 in the Climate and Forecast convention
   `Orthogonal multidimensional array representation
   <http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_orthogonal_multidimensional_array_representation>`_
 - Store the time series in 5x5 degree cells. This means there will be 2566 cell
-  files and a file called ``grid.nc`` which contains the information about which
-  grid point is stored in which file. This allows us to read a whole 5x5 degree
-  area into memory and iterate over the time series quickly.
+  files (without reduction to land points) and a file called ``grid.nc``
+  which contains the information about which grid point is stored in which file.
+  This allows us to read a whole 5x5 degree area into memory and iterate over the time series quickly.
 
   .. image:: 5x5_cell_partitioning.png
      :target: _images/5x5_cell_partitioning.png
@@ -24,10 +25,10 @@ program. An example would be:
 
 .. code-block:: shell
 
-   gldas_repurpose /gldas_data /timeseries/data 2000-01-01 2001-01-01 085_L1 085_L2
+   gldas_repurpose /gldas_data /timeseries/data 2000-01-01 2001-01-01 SoilMoi0_10cm_inst SoilMoi10_40cm_inst
 
 Which would take GLDAS Noah data stored in ``/gldas_data`` from January 1st
-2000 to January 1st 2001 and store the parameters 085_L1 and 085_L2 as time
+2000 to January 1st 2001 and store the parameters for the top 2 layers of soil moisture as time
 series in the folder ``/timeseries/data``.
 
 Conversion to time series is performed by the `repurpose package
