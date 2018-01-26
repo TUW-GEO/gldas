@@ -11,7 +11,7 @@ from gldas.interface import GLDASTs
 
 def test_reshuffle():
     inpath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          "test-data", "img2ts_test")
+                          "test-data", "img2ts_test", "netcdf")
     startdate = "2016-01-01T03:00"
     enddate = "2016-01-01T21:00"
     parameters = ["SoilMoi0_10cm_inst", "SoilMoi10_40cm_inst"]

@@ -175,7 +175,7 @@ def parse_args(args):
                              'data is stored.')
 
     parser.add_argument("timeseries_root",
-                        help='Root of local filesystem where the timeseries'
+                        help='Root of local filesystem where the timeseries '
                              'should be stored.')
 
     parser.add_argument("start", type=mkdate,
@@ -188,11 +188,12 @@ def parse_args(args):
 
     parser.add_argument("parameters", metavar="parameters",
                         nargs="+",
-                        help=("Parameters to download in numerical format. "
-                              "e.g. 086_L1 086_L2 086_L3 086_L4 for "
-                              "Volumetric soil water layers 1 to 4."))
+                        help=("Parameters to reshuffle into time series format. "
+                              "e.g. SoilMoi0_10cm_inst SoilMoi10_40cm_inst for "
+                              "Volumetric soil water layers 1 to 2."))
     parser.add_argument("--land_points", type=str2bool, default='False',
-                        help=("Set True to reshuffle only land points as defined in:"
+                        help=("Set True to convert only land points as defined"
+                              " in the gldas land mask (faster and less/smaller files): "
                               "https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc"))
 
     parser.add_argument("--imgbuffer", type=int, default=50,
