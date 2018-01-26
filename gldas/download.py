@@ -254,7 +254,7 @@ def parse_args(args):
                               "current date is used."))
 
     help_string = '\n'.join(['GLDAS product to download.',
-                             'GLDAS_Noah_v20_025 available from {}',
+                             'GLDAS_Noah_v20_025 available from {} to 2010-12-31',
                              'GLDAS_Noah_v21_025 available from {}'])
 
     help_string = help_string.format(
