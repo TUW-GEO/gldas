@@ -40,6 +40,7 @@ from gldas.grid import GLDAS025Cellgrid
 from netCDF4 import Dataset
 
 
+
 class GLDAS_Noah_v21_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v2.1 nc file in 0.25 deg grid.
@@ -53,13 +54,16 @@ class GLDAS_Noah_v21_025Img(ImageBase):
     parameter : string or list, optional
         one or list of parameters to read, see GLDAS v2.1 documentation
         for more information (default: 'SoilMoi0_10cm_inst').
+    subgrid : Cell Grid
+        Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
     array_1D: boolean, optional
         if set then the data is read into 1D arrays.
         Needed for some legacy code.
     """
 
-    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst',
-                 array_1D=False):
+
+    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst', 
+                 subgrid=None, array_1D=False):
 
         super(GLDAS_Noah_v21_025Img, self).__init__(filename, mode=mode)
 
@@ -68,7 +72,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
         self.parameters = parameter
         self.fill_values = np.repeat(9999., 1440 * 120)
-        self.grid = GLDAS025Cellgrid()
+        self.grid = GLDAS025Cellgrid() if not subgrid else subgrid
         self.array_1D = array_1D
 
     def read(self, timestamp=None):
@@ -76,6 +80,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
         # print 'read file: %s' %self.filename
         # Returns the selected parameters for a gldas image and
         # according metadata
+
         return_img = {}
         return_metadata = {}
 
@@ -101,42 +106,43 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
                 param_data = dataset.variables[parameter][:]
                 np.ma.set_fill_value(param_data, 9999)
-
                 param_data = np.concatenate((
                     self.fill_values,
                     np.ma.getdata(param_data.filled()) .flatten()))
 
                 return_img.update(
                     {str(parameter): param_data[self.grid.activegpis]})
+
                 return_metadata.update({str(parameter): param_metadata})
 
                 # Check for corrupt files
                 try:
                     return_img[parameter]
                 except KeyError:
-                    _, thefile = os.path.split(self.filename)
-                    print('%s in %s is corrupt - filling'
-                          'image with NaN values' % (parameter, thefile))
+                    path, thefile = os.path.split(self.filename)
+                    print ('%s in %s is corrupt - filling'
+                           'image with NaN values' % (parameter, thefile))
                     return_img[parameter] = np.empty(
                         self.grid.n_gpi).fill(np.nan)
+
                     return_metadata['corrupt_parameters'].append()
 
         dataset.close()
 
         if self.array_1D:
-            img = Image(self.grid.activearrlon, self.grid.activearrlat,
+            return Image(self.grid.activearrlon, self.grid.activearrlat,
                         return_img, return_metadata, timestamp)
         else:
             for key in return_img:
                 return_img[key] = np.flipud(
                     return_img[key].reshape((720, 1440)))
 
-            lons = np.flipud(self.grid.activearrlon.reshape((720, 1440)))
-            lats = np.flipud(self.grid.activearrlat.reshape((720, 1440)))
-
-            img = Image(lons, lats, return_img, return_metadata, timestamp)
-
-        return img
+            
+            return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
+                         np.flipud(self.grid.activearrlat.reshape((720, 1440))),
+                         return_img,
+                         return_metadata,
+                         timestamp)
 
     def write(self, data):
         raise NotImplementedError()
@@ -150,7 +156,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
-    Class for reading one GLDAS Noah v1 grib file in 0.25° grid.
+    Class for reading one GLDAS Noah v1 grib file in 0.25 deg grid.
 
     Parameters
     ----------
@@ -167,19 +173,21 @@ class GLDAS_Noah_v1_025Img(ImageBase):
                         '204', '205', '234', '235']
         parameters to read, see GLDAS documentation for more information
         Default : '086_L1'
+    subgrid : Cell Grid
+        Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
     array_1D: boolean, optional
         if set then the data is read into 1D arrays.
         Needed for some legacy code.
     """
 
-    def __init__(self, filename, mode='r', parameter='086_L1', array_1D=False):
+    def __init__(self, filename, mode='r', parameter='086_L1', subgrid=None, array_1D=False):
         super(GLDAS_Noah_v1_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
             parameter = [parameter]
         self.parameters = parameter
         self.fill_values = np.repeat(9999., 1440 * 120)
-        self.grid = GLDAS025Cellgrid()
+        self.grid = subgrid if subgrid else GLDAS025Cellgrid()
         self.array_1D = array_1D
 
     def read(self, timestamp=None):
@@ -276,26 +284,32 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
     data_path : string
         Path to the nc files
     parameter : string or list, optional
-        One or list of parameters to read, see GLDAS v2.1 documentation
-        for more information. Default : 'SoilMoi0_10cm_inst'
+        one or list of parameters to read, see GLDAS v2.1 documentation 
+        for more information (default: 'SoilMoi0_10cm_inst').
+    subgrid : Cell Grid
+        Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
     array_1D: boolean, optional
         If set then the data is read into 1D arrays.
         Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst',
-                 array_1D=False):
+    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst', 
+                 subgrid=None, array_1D=False):
 
         ioclass_kws = {'parameter': parameter,
+                       'subgrid': subgrid,
                        'array_1D': array_1D}
 
         sub_path = ['%Y', '%j']
         filename_templ = "GLDAS_NOAH025_3H.A{datetime}.*.nc4"
 
-        super(GLDAS_Noah_v21_025Ds, self).__init__(
-            data_path, GLDAS_Noah_v21_025Img, fname_templ=filename_templ,
-            datetime_format="%Y%m%d.%H%M", subpath_templ=sub_path,
-            exact_templ=False, ioclass_kws=ioclass_kws)
+        super(GLDAS_Noah_v21_025Ds, self).__init__(data_path, GLDAS_Noah_v21_025Img,
+                                                   fname_templ=filename_templ,
+                                                   datetime_format="%Y%m%d.%H%M",
+                                                   subpath_templ=sub_path,
+                                                   exact_templ=False,
+                                                   ioclass_kws=ioclass_kws)
+
 
     def tstamps_for_daterange(self, start_date, end_date):
         """
@@ -344,14 +358,16 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
                         '155', '204', '205', '234', '235']
         parameters to read, see GLDAS documentation for more information
         Default : '086_L1'
+    subgrid : Cell Grid
+        Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
     array_1D: boolean, optional
         if set then the data is read into 1D arrays.
         Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='086_L1', array_1D=False):
-
+    def __init__(self, data_path, parameter='086_L1', subgrid=None, array_1D=False):
         ioclass_kws = {'parameter': parameter,
+                       'subgrid': subgrid,
                        'array_1D': array_1D}
 
         sub_path = ['%Y', '%j']
@@ -394,11 +410,12 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
 
 
 class GLDASTs(GriddedNcOrthoMultiTs):
-
     def __init__(self, ts_path, grid_path=None):
-
         if grid_path is None:
             grid_path = os.path.join(ts_path, "grid.nc")
 
         grid = pygeogrids.netcdf.load_grid(grid_path)
         super(GLDASTs, self).__init__(ts_path, grid)
+
+
+
