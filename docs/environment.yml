@@ -1,3 +1,4 @@
+#this file is not used at the moment
 name: gldas-docs
 channels:
   - conda-forge
