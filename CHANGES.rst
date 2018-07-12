@@ -6,6 +6,8 @@ Version 0.X
 ===========
 
 - Update readme
+- Support reshuffling of land points only
+- Test with netcdf test data
 
 Version 0.4
 ===========
