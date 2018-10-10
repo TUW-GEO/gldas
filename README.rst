@@ -43,7 +43,7 @@ commands:
 
 .. code-block:: shell
 
-  conda create -q -n gldas-environment -c conda-forge numpy netCDF4 pyproj pygrib
+  conda create -q -n gldas-environment -c conda-forge numpy netCDF4==1.2.2 pyproj pygrib
   source activate gldas-environment
   pip install gldas
 
