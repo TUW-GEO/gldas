@@ -19,7 +19,7 @@ Readers and converters for data from the `GLDAS Noah Land Surface Model
 
 Works great in combination with `pytesmo <https://github.com/TUW-GEO/pytesmo>`_.
 
-Citation
+Citationy
 ========
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.596427.svg
