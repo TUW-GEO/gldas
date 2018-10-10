@@ -5,6 +5,7 @@ Changelog
 Version 0.X
 ===========
 
+- Update trollsift parsing
 - Update readme
 - Support reshuffling of land points only
 - Test with netcdf test data

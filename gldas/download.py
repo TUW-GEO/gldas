@@ -30,7 +30,7 @@ import glob
 import argparse
 from functools import partial
 
-import trollsift.parser as parser
+from trollsift.parser import validate, parse, globify
 from datetime import datetime
 from datedown.interface import mkdate
 from datedown.dates import daily
@@ -41,7 +41,7 @@ from datedown.down import download
 
 
 def gldas_folder_get_version_first_last(root, fmt=None,
-                                        subpaths=['{:%Y}', '{:%j}']):
+                                        subpaths=['{time:%Y}', '{time:%j}']):
     """
     Get product version and first and last product which exists under the root folder.
 
@@ -75,15 +75,15 @@ def gldas_folder_get_version_first_last(root, fmt=None,
 
     if first_folder is not None:
         files = sorted(
-            glob.glob(os.path.join(first_folder, parser.globify(fmt))))
-        data = parser.parse(fmt, os.path.split(files[0])[1])
+            glob.glob(os.path.join(first_folder, globify(fmt))))
+        data = parse(fmt, os.path.split(files[0])[1])
         start = data['time']
         version = 'GLDAS_Noah_v%s_025' % data['version']
 
     if last_folder is not None:
         files = sorted(
-            glob.glob(os.path.join(last_folder, parser.globify(fmt))))
-        data = parser.parse(fmt, os.path.split(files[-1])[1])
+            glob.glob(os.path.join(last_folder, globify(fmt))))
+        data = parse(fmt, os.path.split(files[-1])[1])
         end = data['time']
 
     return version, start, end
@@ -164,7 +164,7 @@ def get_last_formatted_dir_in_dir(folder, fmt):
     root_elements = sorted(os.listdir(folder))
     for root_element in root_elements[::-1]:
         if os.path.isdir(os.path.join(folder, root_element)):
-            if parser.validate(fmt, root_element):
+            if validate(fmt, root_element):
                 last_elem = root_element
                 break
 
@@ -192,7 +192,7 @@ def get_first_formatted_dir_in_dir(folder, fmt):
     root_elements = sorted(os.listdir(folder))
     for root_element in root_elements:
         if os.path.isdir(os.path.join(folder, root_element)):
-            if parser.validate(fmt, root_element):
+            if validate(fmt, root_element):
                 first_elem = root_element
                 break
 
@@ -351,3 +351,14 @@ def main(args):
 
 def run():
     main(sys.argv[1:])
+
+
+
+if __name__ == '__main__':
+    root = '/home/wpreimes/shares/home/code/gldas/tests/folder_test/success'
+    subpaths = ["{time:%Y}"]
+    direct = get_last_gldas_folder(root, subpaths)
+
+    root = '/home/wpreimes/shares/home/code/gldas/tests/folder_test/failure'
+    subpaths = ['{time:%Y}', '{time:%j}']
+    direct = get_last_gldas_folder(root, subpaths)
