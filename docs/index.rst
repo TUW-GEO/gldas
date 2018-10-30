@@ -2,6 +2,8 @@
 
 .. include:: reading.rst
 
+.. include:: varnames.rst
+
 .. include:: img2ts.rst
 
 Contents
