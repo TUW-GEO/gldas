@@ -44,6 +44,8 @@ script:
   - python setup.py test
 after_success:
   # report coverage results to coveralls.io
+  - conda install py=1.7.0
+  - pip install coverage==4.5.2
   - conda list
   - pip install coveralls
   - coveralls
