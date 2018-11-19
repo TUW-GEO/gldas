@@ -44,5 +44,6 @@ script:
   - python setup.py test
 after_success:
   # report coverage results to coveralls.io
+  - pip install pynetcf
   - pip install coveralls
   - coveralls
