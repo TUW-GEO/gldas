@@ -42,16 +42,19 @@ Setup of a complete environment with `conda
 commands:
 
 .. code-block:: shell
+
   conda create -n gldas python=2.7 # or any other supported python version
   source activate gldas
 
 .. code-block:: shell
+
   # Either install required conda packages manually
   conda install -c conda-forge numpy netCDF4 pyproj pygrib
   # Or use the provided environment file
   conda update -f environment.yml
 
 .. code-block:: shell
+
   # Install the gldas package and pip-dependencies
   pip install gldas
 

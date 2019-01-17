@@ -37,6 +37,9 @@ or other options see the `repurpose documentation
 <http://repurpose.readthedocs.io/en/latest/>`_ and the code in
 ``gldas.reshuffle``.
 
+Note: If a ´RuntimeError: NetCDF: Bad chunk sizes.` appears during reshuffling, consider downgrading the
+netcdf4 library via `conda install -c conda-forge netcdf4=1.2.2`
+
 Reading converted time series data
 ----------------------------------
 
