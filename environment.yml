@@ -4,10 +4,8 @@ channels:
 dependencies:
 - matplotlib
 - pandas
-- basemap
-- python=2.7
-- pygrib=2.0.2
-- netcdf4=1.2.2
+- pygrib=2.0.2 # remove pygrib when installing on windows
+- netcdf4
 - scipy
 - pyresample
 - pip:
