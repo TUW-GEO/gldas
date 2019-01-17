@@ -26,7 +26,10 @@ def test_reshuffle():
         else:
             assert len(glob.glob(os.path.join(ts_path, "*.nc"))) == 2593
 
-        ds = GLDASTs(ts_path)
+        ds = GLDASTs(ts_path,
+                     ioclass_kws={'read_bulk': True, 'read_dates': False},
+                     parameters=['SoilMoi0_10cm_inst'])
+
         ts = ds.read_ts(45, 15)
         ts_SM0_10_values_should = np.array([9.595, 9.593, 9.578,
                                             9.562, 9.555, 9.555, 9.556], dtype=np.float32)
