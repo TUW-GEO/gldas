@@ -50,8 +50,8 @@ commands:
 
   # Either install required conda packages manually
   conda install -c conda-forge numpy netCDF4 pyproj pygrib
-  # Or use the provided environment file
-  conda update -f environment.yml
+  # Or use the provided environment file to install all dependencies
+  conda env update -f environment.yml
 
 .. code-block:: shell
 
