@@ -30,11 +30,10 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  - conda create -q -n test-environment -c conda-forge python=$TRAVIS_PYTHON_VERSION netcdf4=1.2.2 matplotlib basemap pyresample pygrib pyproj
-  - source activate test-environment
-  - pip install pygeogrids
-  - pip install pygeobase
-  - pip install --upgrade numpy
+  - conda create -n gldas python=$TRAVIS_PYTHON_VERSION
+  - source activate gldas
+  - conda env update -f environment.yml
+  - conda list
   - pip install .
   - pip list
   - which pip
