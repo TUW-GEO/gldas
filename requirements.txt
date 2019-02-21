@@ -10,3 +10,4 @@ netcdf4
 pyresample
 repurpose
 pynetcf
+more_itertools
