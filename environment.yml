@@ -15,3 +15,4 @@ dependencies:
     - pytesmo
     - datedown>=0.3
     - trollsift
+    - more_itertools

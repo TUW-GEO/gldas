@@ -449,3 +449,4 @@ class GLDASTs(GriddedNcOrthoMultiTs):
 
         grid = load_grid(grid_path)
         super(GLDASTs, self).__init__(ts_path, grid, **kwargs)
+
