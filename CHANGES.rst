@@ -2,7 +2,12 @@
 Changelog
 =========
 
-Version 0.X
+Unreleased
+==========
+
+- Add gldas land mask to package (no download necessary)
+
+Version 0.5
 ===========
 
 - Update trollsift parsing

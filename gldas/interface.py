@@ -60,8 +60,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
         Needed for some legacy code.
     """
 
-
-    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst', 
+    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst',
                  subgrid=None, array_1D=False):
 
         super(GLDAS_Noah_v21_025Img, self).__init__(filename, mode=mode)
@@ -107,7 +106,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
                 np.ma.set_fill_value(param_data, 9999)
                 param_data = np.concatenate((
                     self.fill_values,
-                    np.ma.getdata(param_data.filled()) .flatten()))
+                    np.ma.getdata(param_data.filled()).flatten()))
 
                 return_img.update(
                     {str(parameter): param_data[self.grid.activegpis]})
@@ -130,13 +129,12 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
         if self.array_1D:
             return Image(self.grid.activearrlon, self.grid.activearrlat,
-                        return_img, return_metadata, timestamp)
+                         return_img, return_metadata, timestamp)
         else:
             for key in return_img:
                 return_img[key] = np.flipud(
                     return_img[key].reshape((720, 1440)))
 
-            
             return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
                          np.flipud(self.grid.activearrlat.reshape((720, 1440))),
                          return_img,
@@ -292,9 +290,8 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
         Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst', 
+    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst',
                  subgrid=None, array_1D=False):
-
         ioclass_kws = {'parameter': parameter,
                        'subgrid': subgrid,
                        'array_1D': array_1D}
@@ -308,7 +305,6 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
                                                    subpath_templ=sub_path,
                                                    exact_templ=False,
                                                    ioclass_kws=ioclass_kws)
-
 
     def tstamps_for_daterange(self, start_date, end_date):
         """
