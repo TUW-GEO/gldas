@@ -23,47 +23,55 @@
 import numpy as np
 
 from pygeogrids.grids import BasicGrid
-import pandas as pd
+from netCDF4 import Dataset
+import os
+
+
+def GLDAS025Grids(only_land=False):
+    """
+    Create global 0.25 DEG gldas grids (origin in bottom left)
+
+    Parameters
+    ---------
+    only_land : bool, optional (default: False)
+        Uses the land mask to reduce the GLDAS 0.25DEG land grid to land points
+        only.
+
+    Returns
+    --------
+    grid : pygeogrids.CellGrid
+        Either a land grid or a global grid
+    """
+
+    resolution = 0.25
+    glob_lons = np.arange(-180 + resolution / 2, 180 + resolution / 2, resolution)
+    glob_lats = np.arange(-90 + resolution / 2, 90 + resolution / 2, resolution)
+    lon, lat = np.meshgrid(glob_lons, glob_lats)
+    glob_grid = BasicGrid(lon.flatten(), lat.flatten()).to_cell_grid(cellsize=5.)
+
+    if only_land:
+        ds = Dataset(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                  'GLDASp4_landmask_025d.nc4'))
+        land_lats = ds.variables['lat'][:]
+        land_mask = ds.variables['GLDAS_mask'][:].flatten().filled() == 0.
+        dlat = glob_lats.size - land_lats.size
+
+        land_mask = np.concatenate((np.ones(dlat * glob_lons.size), land_mask))
+        land_points = np.ma.masked_array(glob_grid.get_grid_points()[0], land_mask)
+
+        land_grid = glob_grid.subgrid_from_gpis(land_points[~land_points.mask].filled())
+        return land_grid
+    else:
+        return glob_grid
 
 
 def GLDAS025Cellgrid():
-    '''
-    GLDAS-Noah 0.25deg cell grid.
-    :return: global QDEG-CellGrid
-    '''
-    resolution = 0.25
-    lon, lat = np.meshgrid(
-        np.arange(-180 + resolution / 2, 180 + resolution / 2, resolution),
-        np.arange(-90 + resolution / 2, 90 + resolution / 2, resolution))
-
-    return BasicGrid(lon.flatten(), lat.flatten()).to_cell_grid(cellsize=5.)
-
-
-def GLDASLandPoints(grid):
-    '''
-    Load land mask from https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc
-    and reduce input grid to land points
-    :return: (GPI, dist)
-    '''
-    try:
-        land_mask = pd.read_csv('https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc',
-                                delim_whitespace=True, header=None, names=['idx', 'gpi', 'lat', 'lon', 'land_flag'])
-    except:
-        raise ImportError(
-            'reading land mask from https://ldas.gsfc.nasa.gov/gldas/data/0.25deg/landmask_mod44w_025.asc failed.')
-    land_mask = land_mask.loc[land_mask['land_flag'] == 1]
-    lat, lon = land_mask['lat'].values, land_mask['lon'].values
-
-    return grid.find_nearest_gpi(lon, lat)
+    return GLDAS025Grids(only_land=False)
 
 
 def GLDAS025LandGrid():
-    '''
-    0.25deg cell grid of land points from gldas land mask.
-    :return: global QDEG-LandGrid
-    '''
-    grid = GLDAS025Cellgrid()
-    land_gpis, dist = GLDASLandPoints(grid)
-    if any(dist) > 0:
-        raise Exception('GLDAS grid does not conform with QDEG grid')
-    return grid.subgrid_from_gpis(land_gpis)
+    return GLDAS025Grids(only_land=True)
+
+
+if __name__ == '__main__':
+    GLDAS025LandGrid()
