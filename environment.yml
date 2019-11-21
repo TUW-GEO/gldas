@@ -2,12 +2,11 @@ name: gldas
 channels:
   - conda-forge
 dependencies:
-- matplotlib
 - pandas
-- pygrib=2.0.2 # remove pygrib when installing on windows
+- pygrib # remove pygrib when installing on windows
 - netcdf4
-- scipy
 - pyresample
+- pip
 - pip:
     - pygeobase
     - pynetcf
