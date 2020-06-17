@@ -196,9 +196,9 @@ def parse_args(args):
                               " in the GLDAS land mask (faster and less/smaller files)"))
 
     parser.add_argument("--bbox", type=float, default=None, nargs=4,
-                        help=("min_lon min_lat max_lon max_lat \n"
+                        help=("min_lon min_lat max_lon max_lat. "
                               "Bounding Box (lower left and upper right corner) "
-                              "of area to reshuffle"))
+                              "of area to reshuffle (WGS84)"))
 
     parser.add_argument("--imgbuffer", type=int, default=50,
                         help=("How many images to read at once. Bigger "
