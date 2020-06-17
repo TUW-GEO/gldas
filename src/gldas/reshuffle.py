@@ -34,7 +34,7 @@ from pygeogrids import BasicGrid
 
 from repurpose.img2ts import Img2Ts
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v21_025Ds
-from gldas.grid import GLDAS025LandGrid, GLDAS025Cellgrid, subgrid4bbox
+from gldas.grid import load_grid
 import warnings
 
 def get_filetype(inpath):
@@ -95,30 +95,6 @@ def str2bool(val):
         return True
     else:
         return False
-
-def load_grid(land_points=True, bbox=None):
-    """
-    Load gldas grid.
-
-    Parameters
-    ----------
-    land_points : bool, optional (default: True)
-        Reshuffle only land points
-    bbox : tuple, optional (default: True)
-        (min_lat, min_lon, max_lat, max_lon)
-        Bounding box to limit reshuffling to.
-    """
-    if land_points:
-        subgrid = GLDAS025LandGrid()
-        if bbox is not None:
-            subgrid = subgrid4bbox(subgrid, *bbox)
-    else:
-        if bbox is not None:
-            subgrid = subgrid4bbox(GLDAS025Cellgrid(), *bbox)
-        else:
-            subgrid = None
-
-    return subgrid
 
 def reshuffle(input_root, outputpath,
               startdate, enddate,
@@ -268,11 +244,4 @@ def run():
     main(sys.argv[1:])
 
 if __name__ == '__main__':
-    #run()
-    from datetime import datetime
-    input_root = r"R:\Datapool\GLDAS\01_raw\GLDAS_NOAH025_3H.2.1\datasets\netcdf"
-    outputpath = r"C:\Temp\gldas"
-    startdate, enddate = '2001-01-01', '2001-01-31'
-    parameters = ['ECanop_tavg', 'ESoil_tavg', 'Evap_tavg', 'Tveg_tavg', 'Qsb_acc', 'SoilMoi0_10cm_int', 'Rainf_f_tavg', 'AvgSurfT_inst']
-    main([input_root, outputpath, startdate, enddate, *parameters, '--land_points', 'True',
-          '--bbox',  '44.375', '14.375', '45.875', '15.625'])
+    run()
