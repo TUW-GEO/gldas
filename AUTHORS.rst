@@ -2,4 +2,6 @@
 Developers
 ==========
 
-* Andreea Plocon <andreea.plocon@geo.tuwien.ac.at>
+* Wolfgang Preimesberger <wolfgang.preimesberger@geo.tuwien.ac.at>
+* Christoph Paulik <cpaulik@vandersat.com>
+* Andreea Plocon

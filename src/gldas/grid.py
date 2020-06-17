@@ -26,6 +26,14 @@ from pygeogrids.grids import BasicGrid
 from netCDF4 import Dataset
 import os
 
+def subgrid4bbox(grid, min_lon, min_lat, max_lon, max_lat):
+    gpis, lons, lats, _ = grid.get_grid_points()
+    assert len(gpis) == len(lats) == len(lons)
+    bbox_gpis = gpis[np.where((lons <= max_lon) & (lons >= min_lon) &
+                              (lats <= max_lat) & (lats >= min_lat))]
+
+    return grid.subgrid_from_gpis(bbox_gpis)
+
 
 def GLDAS025Grids(only_land=False):
     """

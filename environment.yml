@@ -1,9 +1,11 @@
 name: gldas
 channels:
   - conda-forge
+  - defaults
 dependencies:
 - pandas
-- pygrib # remove pygrib when installing on windows
+- numpy
+- pygrib
 - netcdf4
 - pyresample
 - pip
@@ -11,7 +13,8 @@ dependencies:
     - pygeobase
     - pynetcf
     - repurpose
-    - pytesmo
     - datedown>=0.3
     - trollsift
-    - more_itertools
+    - pytest-cov<=2.9
+    - coverage==4.5.2
+    - pytest==3.8.2

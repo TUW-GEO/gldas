@@ -437,8 +437,6 @@ class GLDASTs(GriddedNcOrthoMultiTs):
                         if false dates will not be read automatically but only on specific
                         request useable for bulk reading because currently the netCDF
                         num2date routine is very slow for big datasets
-
-
         '''
         if grid_path is None:
             grid_path = os.path.join(ts_path, "grid.nc")
