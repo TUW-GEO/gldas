@@ -49,6 +49,7 @@ deploy:
   password: # encrypeted pypi token for gldas
     secure: jjGdITjuYV/Nfbaz0XhoZ/8HkXVQvy3raEiqqbTiNViR6LeSculV1FxHeMR/lLs33jbcTGVyjXr7FyKpaiBpsfCJSZvhrWuOMkjK3QKZayZjenpDUpsL9DCHih7KsZr7aVLLnDF/H+dluAOYCIdXFJpSHfWqqNgWrlVxLs7SteghB5qvTP6ZW9iCFuUJY8fmQrzLDwJPIxTeV1WdaWNXjaw/OU4YXFq7WjO2HOaDnMVaucM4CLlvpnr6wzWYRSxREbo79+BF4ZlrcKyd7GFF/Mfgz5LeCqZlfpAFw+57ul7vbGPIPZL/TOetX/5Q5gOf03RYuZHIyyLage5shzRC5vPMYVKAaa0edH7QNfjMlAbiF2WVY+tKLnozBvefjxC+xX3t0UZfQeP/OQtPftJOiow1We/e2GPIY8OgkI0ysrgRlWeveCOesP4HlpQpD3fqVhlMvsr3UyQzTArJpzMbmhz90LIq1QVIsLzH2dYkHMSilFF+r0e8Be6zQ76S04Wy099RG3TlyYMxAbvjLNOGd5mTB5UMezFDjr3DnfsBdv2SI5QBjhq7iccbxM9GLYYoPVPW373yc/FzSSLRTydoz50qqnv3YyFk8gLyxva9sLvsvDmy4/aeIaXp3MaJkybKre5dSqW/6BuGd0MANpaK9f3WrUxFl3ABksGdgJdQomM=
   skip_existing: true
-  repo: TUW-GEO/gldas # exclude forks
   on:
-    tags: true
+    repo: TUW-GEO/gldas # exclude forks
+    branch: master # only on master
+    tags: true # only on tagged commits
