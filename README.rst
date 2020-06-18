@@ -43,7 +43,7 @@ commands:
 
 .. code-block:: shell
 
-  conda create -n gldas python=2.7 # or any other supported python version
+  conda create -n gldas python=3.6 # or any other supported python version
   source activate gldas
 
 .. code-block:: shell
