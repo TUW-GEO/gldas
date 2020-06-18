@@ -17,7 +17,7 @@ Contents
    Conversion to time series <img2ts>
    License <license>
    Authors <authors>
-   Changelog <changes>
+   Changelog <changelog>
    Module Reference <api/modules>
 
 

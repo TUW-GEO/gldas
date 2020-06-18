@@ -26,6 +26,14 @@ from pygeogrids.grids import BasicGrid
 from netCDF4 import Dataset
 import os
 
+def subgrid4bbox(grid, min_lon, min_lat, max_lon, max_lat):
+    gpis, lons, lats, _ = grid.get_grid_points()
+    assert len(gpis) == len(lats) == len(lons)
+    bbox_gpis = gpis[np.where((lons <= max_lon) & (lons >= min_lon) &
+                              (lats <= max_lat) & (lats >= min_lat))]
+
+    return grid.subgrid_from_gpis(bbox_gpis)
+
 
 def GLDAS025Grids(only_land=False):
     """
@@ -75,3 +83,28 @@ def GLDAS025LandGrid():
 
 if __name__ == '__main__':
     GLDAS025LandGrid()
+
+
+def load_grid(land_points=True, bbox=None):
+    """
+    Load gldas grid.
+
+    Parameters
+    ----------
+    land_points : bool, optional (default: True)
+        Reshuffle only land points
+    bbox : tuple, optional (default: True)
+        (min_lat, min_lon, max_lat, max_lon)
+        Bounding box to limit reshuffling to.
+    """
+    if land_points:
+        subgrid = GLDAS025LandGrid()
+        if bbox is not None:
+            subgrid = subgrid4bbox(subgrid, *bbox)
+    else:
+        if bbox is not None:
+            subgrid = subgrid4bbox(GLDAS025Cellgrid(), *bbox)
+        else:
+            subgrid = None
+
+    return subgrid

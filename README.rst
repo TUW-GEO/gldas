@@ -62,11 +62,6 @@ This will also try to install pygrib for reading the GLDAS grib files. If this
 does not work then please consult the `pygrib manual
 <http://jswhit.github.io/pygrib/docs/>`_.
 
-.. note::
-
-   Reading grib files does not work on Windows as far as we know. It might be
-   possible to compile the ECMWF C library but we have not done it yet.
-
 Supported Products
 ==================
 
