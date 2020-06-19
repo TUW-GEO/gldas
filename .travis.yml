@@ -43,15 +43,11 @@ after_success:
   - pip install coveralls
   - coveralls
 deploy:
-  # see https://docs.travis-ci.com/user/environment-variables/#encrypting-environment-variables
   provider: pypi
-  #distributions: "sdist bdist_wheel"
-  username: "__token__"
-  password: # encrypeted pypi token for gldas
-    secure: "BwKqpwjQWioJ5k9VNAuhm3Fq7W4nMrzZMG7JOlk3o+OsL61Kku9thox+B8MSExi8g/VB2l9lRYQg7XViU1ZTeXhN71j2cWUyrZQ1DZUYcz7VuMIlGVwTZY9g1EaFCrcZng0R84yDEhyXJ4cxiGZm+IRe8zesMfA1NXa5yuetUFB6jOaWqlloB0l0u/nUiLjcTDHVY9Ot5KvgO6n1SKn53e1fhRxLrbxuC0Ja5gbCGKx3TnA1V1pxARxfbxjsYrEkhxHTUFmQbIcZYU+K8J8w1FhOV5J/vWah55SIv0iGrG7AuIWqX13f5gikVh5uGXSVofgVmCxtXvXW/uvnT9oGOuNE2uyCtD0PDpcbv3RpnfjL5xQ2UEs2J4A6MuBeTTz1z/lrMAH+DQU4hFWsOzQ/vXmXWh6q9un67iGZklJM5dWUEn2qgthUT65BZcMxstSwqbPsLGyi4uGi1N3nW0xEmCbRmyIeZfTHeolZSHgtsMMyCrRG+Nhquy1ZIQkW454KX2vNzOMnT/pLsfkLrqgmo2u+RHjCHPhMc1YUiRh6+Tk5yXDAzyDK1N7qkryUesmniTub3DjWgdaArN3mLiIp4pL9JIhvEfp9RmbEtN3eFdKZMxFkxdOzdof1IQ6r2yXZG9sA3v873MTQCBT0RhqdFO2JkZKzUyxuh6qjd1ZU52w="
+  # better then hiding the token would be to encrypt it with travis...
+  username: __token__
+  password: $PYPI_TOKEN
   skip_existing: true
-  skip_cleanup: true
   on:
-    repo: TUW-GEO/gldas # exclude forks
-    branch: master # only on master
-    tags: true # only on tagged commits
+    repo: TUW-GEO/gldas
+    tags: true
