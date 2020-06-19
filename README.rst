@@ -49,18 +49,14 @@ commands:
 .. code-block:: shell
 
   # Either install required conda packages manually
-  conda install -c conda-forge numpy netCDF4 pyproj pygrib
+  conda install -c conda-forge numpy netCDF4 pyproj pygrib pyresample -n gldas
   # Or use the provided environment file to install all dependencies
-  conda env update -f environment.yml
+  conda env update -f environment.yml -n gldas
 
 .. code-block:: shell
 
-  # Install the gldas package and pip-dependencies
+  # Install the latest gldas package and its pip-dependencies
   pip install gldas
-
-This will also try to install pygrib for reading the GLDAS grib files. If this
-does not work then please consult the `pygrib manual
-<http://jswhit.github.io/pygrib/docs/>`_.
 
 Supported Products
 ==================
