@@ -37,6 +37,7 @@ from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v21_025Ds
 from gldas.grid import load_grid
 import warnings
 
+
 def get_filetype(inpath):
     """
     Tries to find out the file type by searching for
@@ -62,13 +63,13 @@ def get_filetype(inpath):
             filename, extension = os.path.splitext(name)
             filelist.append(extension)
 
-    if '.nc4' in filelist and '.grb' not in filelist:
-        return 'netCDF'
-    elif '.grb' in filelist and '.nc4' not in filelist:
-        return 'grib'
+    if ".nc4" in filelist and ".grb" not in filelist:
+        return "netCDF"
+    elif ".grb" in filelist and ".nc4" not in filelist:
+        return "grib"
     else:
         # if file type cannot be detected, guess netCDF
-        return 'netCDF'
+        return "netCDF"
 
 
 def mkdate(datestring):
@@ -86,20 +87,27 @@ def mkdate(datestring):
         Date string as datetime.
     """
     if len(datestring) == 10:
-        return datetime.strptime(datestring, '%Y-%m-%d')
+        return datetime.strptime(datestring, "%Y-%m-%d")
     if len(datestring) == 16:
-        return datetime.strptime(datestring, '%Y-%m-%dT%H:%M')
+        return datetime.strptime(datestring, "%Y-%m-%dT%H:%M")
+
 
 def str2bool(val):
-    if val in ['True', 'true', 't', 'T', '1']:
+    if val in ["True", "true", "t", "T", "1"]:
         return True
     else:
         return False
 
-def reshuffle(input_root, outputpath,
-              startdate, enddate,
-              parameters, input_grid=None,
-              imgbuffer=50):
+
+def reshuffle(
+    input_root,
+    outputpath,
+    startdate,
+    enddate,
+    parameters,
+    input_grid=None,
+    imgbuffer=50,
+):
     """
     Reshuffle method applied to GLDAS data.
 
@@ -122,20 +130,22 @@ def reshuffle(input_root, outputpath,
         How many images to read at once before writing time series.
     """
 
-    if get_filetype(input_root) == 'grib':
+    if get_filetype(input_root) == "grib":
         if input_grid is not None:
-            warnings.warn('Land Grid is fit to GLDAS 2.x netCDF data')
+            warnings.warn("Land Grid is fit to GLDAS 2.x netCDF data")
 
-        input_dataset = GLDAS_Noah_v1_025Ds(input_root, parameters,
-                                            subgrid=input_grid, array_1D=True)
+        input_dataset = GLDAS_Noah_v1_025Ds(
+            input_root, parameters, subgrid=input_grid, array_1D=True
+        )
     else:
-        input_dataset = GLDAS_Noah_v21_025Ds(input_root, parameters,
-                                             subgrid=input_grid, array_1D=True)
+        input_dataset = GLDAS_Noah_v21_025Ds(
+            input_root, parameters, subgrid=input_grid, array_1D=True
+        )
 
     if not os.path.exists(outputpath):
         os.makedirs(outputpath)
 
-    global_attr = {'product': 'GLDAS'}
+    global_attr = {"product": "GLDAS"}
 
     # get time series attributes from first day of data.
     data = input_dataset.read(startdate)
@@ -145,11 +155,20 @@ def reshuffle(input_root, outputpath,
     else:
         grid = input_grid
 
-    reshuffler = Img2Ts(input_dataset=input_dataset, outputpath=outputpath,
-                        startdate=startdate, enddate=enddate, input_grid=grid,
-                        imgbuffer=imgbuffer, cellsize_lat=5.0,
-                        cellsize_lon=5.0, global_attr=global_attr, zlib=True,
-                        unlim_chunksize=1000, ts_attributes=ts_attributes)
+    reshuffler = Img2Ts(
+        input_dataset=input_dataset,
+        outputpath=outputpath,
+        startdate=startdate,
+        enddate=enddate,
+        input_grid=grid,
+        imgbuffer=imgbuffer,
+        cellsize_lat=5.0,
+        cellsize_lon=5.0,
+        global_attr=global_attr,
+        zlib=True,
+        unlim_chunksize=1000,
+        ts_attributes=ts_attributes,
+    )
     reshuffler.calc()
 
 
@@ -168,50 +187,86 @@ def parse_args(args):
         Command line arguments.
     """
     parser = argparse.ArgumentParser(
-        description="Convert GLDAS data to time series format.")
-    parser.add_argument("dataset_root",
-                        help='Root of local filesystem where the '
-                             'data is stored.')
+        description="Convert GLDAS data to time series format."
+    )
+    parser.add_argument(
+        "dataset_root",
+        help="Root of local filesystem where the " "data is stored.",
+    )
 
-    parser.add_argument("timeseries_root",
-                        help='Root of local filesystem where the timeseries '
-                             'should be stored.')
+    parser.add_argument(
+        "timeseries_root",
+        help="Root of local filesystem where the timeseries "
+        "should be stored.",
+    )
 
-    parser.add_argument("start", type=mkdate,
-                        help=("Startdate. Either in format YYYY-MM-DD or "
-                              "YYYY-MM-DDTHH:MM."))
+    parser.add_argument(
+        "start",
+        type=mkdate,
+        help=(
+            "Startdate. Either in format YYYY-MM-DD or " "YYYY-MM-DDTHH:MM."
+        ),
+    )
 
-    parser.add_argument("end", type=mkdate,
-                        help=("Enddate. Either in format YYYY-MM-DD or "
-                              "YYYY-MM-DDTHH:MM."))
+    parser.add_argument(
+        "end",
+        type=mkdate,
+        help=("Enddate. Either in format YYYY-MM-DD or " "YYYY-MM-DDTHH:MM."),
+    )
 
-    parser.add_argument("parameters", metavar="parameters",
-                        nargs="+",
-                        help=("Parameters to reshuffle into time series format. "
-                              "e.g. SoilMoi0_10cm_inst SoilMoi10_40cm_inst for "
-                              "Volumetric soil water layers 1 to 2."))
+    parser.add_argument(
+        "parameters",
+        metavar="parameters",
+        nargs="+",
+        help=(
+            "Parameters to reshuffle into time series format. "
+            "e.g. SoilMoi0_10cm_inst SoilMoi10_40cm_inst for "
+            "Volumetric soil water layers 1 to 2."
+        ),
+    )
 
-    parser.add_argument("--land_points", type=str2bool, default='False',
-                        help=("Set True to convert only land points as defined"
-                              " in the GLDAS land mask (faster and less/smaller files)"))
+    parser.add_argument(
+        "--land_points",
+        type=str2bool,
+        default="False",
+        help=(
+            "Set True to convert only land points as defined"
+            " in the GLDAS land mask (faster and less/smaller files)"
+        ),
+    )
 
-    parser.add_argument("--bbox", type=float, default=None, nargs=4,
-                        help=("min_lon min_lat max_lon max_lat. "
-                              "Bounding Box (lower left and upper right corner) "
-                              "of area to reshuffle (WGS84)"))
+    parser.add_argument(
+        "--bbox",
+        type=float,
+        default=None,
+        nargs=4,
+        help=(
+            "min_lon min_lat max_lon max_lat. "
+            "Bounding Box (lower left and upper right corner) "
+            "of area to reshuffle (WGS84)"
+        ),
+    )
 
-    parser.add_argument("--imgbuffer", type=int, default=50,
-                        help=("How many images to read at once. Bigger "
-                              "numbers make the conversion faster but "
-                              "consume more memory."))
+    parser.add_argument(
+        "--imgbuffer",
+        type=int,
+        default=50,
+        help=(
+            "How many images to read at once. Bigger "
+            "numbers make the conversion faster but "
+            "consume more memory."
+        ),
+    )
 
     args = parser.parse_args(args)
     # set defaults that can not be handled by argparse
 
-    print("Converting data from {} to"
-          " {} into folder {}.".format(args.start.isoformat(),
-                                      args.end.isoformat(),
-                                      args.timeseries_root))
+    print(
+        "Converting data from {} to"
+        " {} into folder {}.".format(
+            args.start.isoformat(), args.end.isoformat(), args.timeseries_root
+        )
+    )
 
     return args
 
@@ -227,21 +282,25 @@ def main(args):
     """
     args = parse_args(args)
 
-    input_grid = load_grid(land_points=args.land_points,
-                           bbox=tuple(args.bbox) if args.bbox is not None else None)
+    input_grid = load_grid(
+        land_points=args.land_points,
+        bbox=tuple(args.bbox) if args.bbox is not None else None,
+    )
 
-    reshuffle(args.dataset_root,
-              args.timeseries_root,
-              args.start,
-              args.end,
-              args.parameters,
-              input_grid=input_grid,
-              imgbuffer=args.imgbuffer)
-
+    reshuffle(
+        args.dataset_root,
+        args.timeseries_root,
+        args.start,
+        args.end,
+        args.parameters,
+        input_grid=input_grid,
+        imgbuffer=args.imgbuffer,
+    )
 
 
 def run():
     main(sys.argv[1:])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     run()
