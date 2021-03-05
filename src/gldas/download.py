@@ -65,7 +65,7 @@ def gldas_folder_get_version_first_last(root, fmt=None,
         Last found product datetime
     """
     if fmt is None:
-        fmt = "GLDAS_NOAH025_3H.A{time:%Y%m%d.%H%M}.0{version:2s}.nc4"
+        fmt = "GLDAS_NOAH025_3H{ep}.A{time:%Y%m%d.%H%M}.0{version:2s}.nc4"
 
     start = None
     end = None
@@ -78,7 +78,8 @@ def gldas_folder_get_version_first_last(root, fmt=None,
             glob.glob(os.path.join(first_folder, globify(fmt))))
         data = parse(fmt, os.path.split(files[0])[1])
         start = data['time']
-        version = 'GLDAS_Noah_v%s_025' % data['version']
+        ep = data['ep']
+        version = f"GLDAS_Noah_v{data['version']}_025{data['ep']}"
 
     if last_folder is not None:
         files = sorted(
@@ -214,7 +215,8 @@ def get_gldas_start_date(product):
         Start date of NOAH GLDAS product.
     """
     dt_dict = {'GLDAS_Noah_v20_025': datetime(1948, 1, 1, 3),
-               'GLDAS_Noah_v21_025': datetime(2000, 1, 1, 3)}
+               'GLDAS_Noah_v21_025': datetime(2000, 1, 1, 3),
+               'GLDAS_Noah_v21_025_EP': datetime(2000, 1, 1, 3)}
 
     return dt_dict[product]
 
@@ -254,16 +256,20 @@ def parse_args(args):
                               "current date is used."))
 
     help_string = '\n'.join(['GLDAS product to download.',
-                             'GLDAS_Noah_v20_025 available from {} to 2010-12-31',
-                             'GLDAS_Noah_v21_025 available from {}'])
+                             'GLDAS_Noah_v20_025 available from {} to 2014-12-31',
+                             'GLDAS_Noah_v21_025 available from {}',
+                             'GLDAS_Noah_v21_025_EP available after GLDAS_Noah_v21_025'])
 
     help_string = help_string.format(
         get_gldas_start_date('GLDAS_Noah_v20_025'),
         get_gldas_start_date('GLDAS_Noah_v21_025'))
 
     parser.add_argument(
-        "--product", choices=["GLDAS_Noah_v20_025", "GLDAS_Noah_v21_025"],
-        default="GLDAS_Noah_v20_025", help=help_string)
+        "--product",
+        choices=["GLDAS_Noah_v20_025",
+                 "GLDAS_Noah_v21_025",
+                 "GLDAS_Noah_v21_025_EP"],
+        default="GLDAS_Noah_v21_025", help=help_string)
 
     parser.add_argument("--username",
                         help='Username to use for download.')
@@ -294,7 +300,7 @@ def parse_args(args):
                     args.start = get_gldas_start_date(args.product)
                 else:
                     # In case of no indication if version, use GLDAS Noah 2.0
-                    # start time
+                    # start time, because it has the longest time span
                     args.start = get_gldas_start_date('GLDAS_Noah_v20_025')
             else:
                 args.start = last
@@ -308,7 +314,12 @@ def parse_args(args):
                  'GLDAS_Noah_v21_025':
                  {'root': 'hydro1.gesdisc.eosdis.nasa.gov',
                   'dirs': ['data', 'GLDAS', 'GLDAS_NOAH025_3H.2.1',
-                           '%Y', '%j']}}
+                           '%Y', '%j']},
+                 'GLDAS_Noah_v21_025_EP':
+                     {'root': 'hydro1.gesdisc.eosdis.nasa.gov',
+                      'dirs': ['data', 'GLDAS', 'GLDAS_NOAH025_3H_EP.2.1',
+                               '%Y', '%j']},
+                 }
 
     args.urlroot = prod_urls[args.product]['root']
     args.urlsubdirs = prod_urls[args.product]['dirs']
@@ -352,3 +363,7 @@ def main(args):
 def run():
     main(sys.argv[1:])
 
+
+if __name__ == '__main__':
+    root = "/home/wolfgang/data-write/temp/gldas/"
+    get_first_formatted_dir_in_dir(root, "GLDAS_NOAH025_3H{ep}.A{time:%Y%m%d.%H%M}.0{version:2s}.nc4")

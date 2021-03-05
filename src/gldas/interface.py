@@ -38,9 +38,9 @@ from datetime import timedelta
 from gldas.grid import GLDAS025Cellgrid
 from netCDF4 import Dataset
 from pygeogrids.netcdf import load_grid
+from warnings import warn
 
-
-class GLDAS_Noah_v21_025Img(ImageBase):
+class GLDAS_Noah_v2_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v2.1 nc file in 0.25 deg grid.
 
@@ -63,7 +63,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
     def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst',
                  subgrid=None, array_1D=False):
 
-        super(GLDAS_Noah_v21_025Img, self).__init__(filename, mode=mode)
+        super(GLDAS_Noah_v2_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
             parameter = [parameter]
@@ -150,6 +150,21 @@ class GLDAS_Noah_v21_025Img(ImageBase):
     def close(self):
         pass
 
+class GLDAS_Noah_v21_025Img(GLDAS_Noah_v2_025Img):
+    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst',
+                 subgrid=None, array_1D=False):
+
+        warnings.warn("GLDAS_Noah_v21_025Img is outdated and replaced by the general"
+                      "GLDAS_Noah_v2_025Img class to read gldas v2.0 and v2.1 "
+                      "0.25 DEG netcdf files."
+                      "The old class will be removed soon.",
+                      category=DeprecationWarning)
+
+        super(GLDAS_Noah_v21_025Img, self).__init__(filename=filename,
+                                                    mode=mode,
+                                                    parameter=parameter,
+                                                    subgrid=subgrid,
+                                                    array_1D=array_1D)
 
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
@@ -297,7 +312,7 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
                        'array_1D': array_1D}
 
         sub_path = ['%Y', '%j']
-        filename_templ = "GLDAS_NOAH025_3H.A{datetime}.*.nc4"
+        filename_templ = "GLDAS_NOAH025_3H*.A{datetime}.*.nc4"
 
         super(GLDAS_Noah_v21_025Ds, self).__init__(data_path, GLDAS_Noah_v21_025Img,
                                                    fname_templ=filename_templ,
