@@ -398,10 +398,3 @@ def main(args):
 
 def run():
     main(sys.argv[1:])
-
-
-if __name__ == "__main__":
-    root = "/home/wolfgang/data-write/temp/gldas/"
-    get_first_formatted_dir_in_dir(
-        root, "GLDAS_NOAH025_3H{ep}.A{time:%Y%m%d.%H%M}.0{version:2s}.nc4"
-    )

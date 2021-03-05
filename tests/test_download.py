@@ -68,14 +68,3 @@ def test_gldas_get_start_end():
     assert end == end_should
     assert start == start_should
 
-
-if __name__ == "__main__":
-    test_gldas_get_start_end()
-    test_get_last_dir_in_dir()
-    test_get_first_dir_in_dir()
-    test_get_first_gldas_folder()
-    test_get_first_gldas_folder_no_folder()
-    test_get_last_dir_in_dir()
-    test_get_last_gldas_folder()
-    test_get_last_gldas_folder_no_folder()
-    test_get_last_dir_in_dir_failure()
