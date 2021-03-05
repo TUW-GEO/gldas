@@ -352,13 +352,3 @@ def main(args):
 def run():
     main(sys.argv[1:])
 
-
-
-if __name__ == '__main__':
-    root = '/home/wpreimes/shares/home/code/gldas/tests/folder_test/success'
-    subpaths = ["{time:%Y}"]
-    direct = get_last_gldas_folder(root, subpaths)
-
-    root = '/home/wpreimes/shares/home/code/gldas/tests/folder_test/failure'
-    subpaths = ['{time:%Y}', '{time:%j}']
-    direct = get_last_gldas_folder(root, subpaths)

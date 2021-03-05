@@ -2,7 +2,20 @@
 Changelog
 =========
 
-Version 0.X
+Unreleased
+==========
+
+-
+
+Version 0.6
+===========
+
+- New package structure
+- Drop python 2 support
+- Allow subsetting by bbox
+- Add gldas land mask to package (no download necessary)
+
+Version 0.5
 ===========
 
 - Update trollsift parsing

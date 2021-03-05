@@ -1,19 +1,20 @@
 name: gldas
 channels:
   - conda-forge
+  - defaults
 dependencies:
-- matplotlib
 - pandas
-- basemap
-- python=2.7
-- pygrib=2.0.2
-- netcdf4=1.2.2
-- scipy
+- numpy
+- pygrib
+- netcdf4
 - pyresample
+- pip
 - pip:
     - pygeobase
     - pynetcf
     - repurpose
-    - pytesmo
     - datedown>=0.3
     - trollsift
+    - pytest-cov<=2.9
+    - coverage==4.5.2
+    - pytest==3.8.2

@@ -60,8 +60,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
         Needed for some legacy code.
     """
 
-
-    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst', 
+    def __init__(self, filename, mode='r', parameter='SoilMoi0_10cm_inst',
                  subgrid=None, array_1D=False):
 
         super(GLDAS_Noah_v21_025Img, self).__init__(filename, mode=mode)
@@ -107,7 +106,7 @@ class GLDAS_Noah_v21_025Img(ImageBase):
                 np.ma.set_fill_value(param_data, 9999)
                 param_data = np.concatenate((
                     self.fill_values,
-                    np.ma.getdata(param_data.filled()) .flatten()))
+                    np.ma.getdata(param_data.filled()).flatten()))
 
                 return_img.update(
                     {str(parameter): param_data[self.grid.activegpis]})
@@ -130,13 +129,12 @@ class GLDAS_Noah_v21_025Img(ImageBase):
 
         if self.array_1D:
             return Image(self.grid.activearrlon, self.grid.activearrlat,
-                        return_img, return_metadata, timestamp)
+                         return_img, return_metadata, timestamp)
         else:
             for key in return_img:
                 return_img[key] = np.flipud(
                     return_img[key].reshape((720, 1440)))
 
-            
             return Image(np.flipud(self.grid.activearrlon.reshape((720, 1440))),
                          np.flipud(self.grid.activearrlat.reshape((720, 1440))),
                          return_img,
@@ -292,9 +290,8 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
         Needed for some legacy code.
     """
 
-    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst', 
+    def __init__(self, data_path, parameter='SoilMoi0_10cm_inst',
                  subgrid=None, array_1D=False):
-
         ioclass_kws = {'parameter': parameter,
                        'subgrid': subgrid,
                        'array_1D': array_1D}
@@ -308,7 +305,6 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
                                                    subpath_templ=sub_path,
                                                    exact_templ=False,
                                                    ioclass_kws=ioclass_kws)
-
 
     def tstamps_for_daterange(self, start_date, end_date):
         """
@@ -409,12 +405,41 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
 
 
 class GLDASTs(GriddedNcOrthoMultiTs):
-    def __init__(self, ts_path, grid_path=None):
+    def __init__(self, ts_path, grid_path=None, **kwargs):
+        '''
+        Class for reading GLDAS time series after reshuffling.
+
+        Parameters
+        ----------
+        ts_path : str
+            Directory where the netcdf time series files are stored
+        grid_path : str, optional (default: None)
+            Path to grid file, that is used to organize the location of time
+            series to read. If None is passed, grid.nc is searched for in the
+            ts_path.
+
+        Optional keyword arguments that are passed to the Gridded Base:
+        ------------------------------------------------------------------------
+            parameters : list, optional (default: None)
+                Specific variable names to read, if None are selected, all are read.
+            offsets : dict, optional (default:None)
+                Offsets (values) that are added to the parameters (keys)
+            scale_factors : dict, optional (default:None)
+                Offset (value) that the parameters (key) is multiplied with
+            ioclass_kws: dict
+                Optional keyword arguments to pass to OrthoMultiTs class:
+                ----------------------------------------------------------------
+                    read_bulk : boolean, optional (default:False)
+                        if set to True the data of all locations is read into memory,
+                        and subsequent calls to read_ts read from the cache and not from disk
+                        this makes reading complete files faster#
+                    read_dates : boolean, optional (default:False)
+                        if false dates will not be read automatically but only on specific
+                        request useable for bulk reading because currently the netCDF
+                        num2date routine is very slow for big datasets
+        '''
         if grid_path is None:
             grid_path = os.path.join(ts_path, "grid.nc")
 
         grid = load_grid(grid_path)
-        super(GLDASTs, self).__init__(ts_path, grid)
-
-
-
+        super(GLDASTs, self).__init__(ts_path, grid, **kwargs)

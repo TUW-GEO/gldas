@@ -245,9 +245,6 @@ def test_GLDAS_Noah_v21_025Img_img_reading_2D():
     assert image.lon.shape == (720, 1440)
     assert image.lon.shape == image.lat.shape
 
-
-
-
 if __name__ == '__main__':
     test_GLDAS_Noah_v1_025Ds_img_reading()
 

@@ -43,18 +43,24 @@ commands:
 
 .. code-block:: shell
 
-  conda create -q -n gldas-environment -c conda-forge numpy netCDF4==1.2.2 pyproj pygrib
-  source activate gldas-environment
+  conda create -n gldas python=3.6 # or any other supported python version
+  source activate gldas
+
+.. code-block:: shell
+
+  # Either install required conda packages manually
+  conda install -c conda-forge numpy netCDF4 pyproj pygrib
+  # Or use the provided environment file to install all dependencies
+  conda env update -f environment.yml
+
+.. code-block:: shell
+
+  # Install the gldas package and pip-dependencies
   pip install gldas
 
 This will also try to install pygrib for reading the GLDAS grib files. If this
 does not work then please consult the `pygrib manual
 <http://jswhit.github.io/pygrib/docs/>`_.
-
-.. note::
-
-   Reading grib files does not work on Windows as far as we know. It might be
-   possible to compile the ECMWF C library but we have not done it yet.
 
 Supported Products
 ==================
