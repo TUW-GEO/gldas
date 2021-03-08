@@ -15,6 +15,6 @@ dependencies:
     - repurpose
     - datedown>=0.3
     - trollsift
-    - pytest-cov<=2.9
-    - coverage==4.5.2
-    - pytest==3.8.2
+    - pytest-cov
+    - coverage
+    - pytest
