@@ -178,7 +178,6 @@ class GLDAS_Noah_v21_025Img(GLDAS_Noah_v2_025Img):
         )
 
 
-@deprecated(message="GLDAS Noah v1 data is deprecated, v2 should be used.")
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v1 grib file in 0.25 deg grid.
@@ -205,6 +204,7 @@ class GLDAS_Noah_v1_025Img(ImageBase):
         Needed for some legacy code.
     """
 
+    @deprecated(message="GLDAS Noah v1 data is deprecated, v2 should be used.")
     def __init__(
         self,
         filename,
@@ -401,7 +401,7 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
 
         return timestamps
 
-@deprecated("GLDAS Noah v1 data is deprecated, v2 should be used.")
+
 class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
     """
     Class for reading GLDAS images in grib format.
@@ -425,6 +425,7 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
         Needed for some legacy code.
     """
 
+    @deprecated("GLDAS Noah v1 data is deprecated, v2 should be used.")
     def __init__(
         self, data_path, parameter="086_L1", subgrid=None, array_1D=False
     ):
