@@ -2,8 +2,8 @@
 gldas
 =====
 
-.. image:: https://travis-ci.org/TUW-GEO/gldas.svg?branch=master
-    :target: https://travis-ci.org/TUW-GEO/gldas
+.. image:: https://github.com/TUW-GEO/gldas/workflows/Automated%20Tests/badge.svg?branch=master
+   :target: https://github.com/TUW-GEO/gldas/actions
 
 .. image:: https://coveralls.io/repos/github/TUW-GEO/gldas/badge.svg?branch=master
    :target: https://coveralls.io/github/TUW-GEO/gldas?branch=master
@@ -43,7 +43,7 @@ commands:
 
 .. code-block:: shell
 
-  conda create -n gldas python=3.6 # or any other supported python version
+  conda create -n gldas python=3.9 # or any other supported python version
   source activate gldas
 
 .. code-block:: shell
@@ -65,23 +65,6 @@ At the moment this package supports GLDAS Noah data version 1 in grib
 format (reading, time series creation) and GLDAS Noah data version 2.0 and version 2.1 in netCDF format (download, reading, time series creation) with a spatial sampling of 0.25 degrees.
 It should be easy to extend the package to support other GLDAS based products.
 This will be done as need arises.
-
-Downloading Products
-====================
-
-In order to download GLDAS NOAH products you have to register an account with
-NASA's Earthdata portal. Instructions can be found `here
-<http://disc.sci.gsfc.nasa.gov/registration/registration-for-data-access>`_.
-
-After that you can use the command line program ``gldas_download``.
-
-.. code::
-
-   mkdir ~/workspace/gldas_data
-   gldas_download ~/workspace/gldas_data
-
-would download GLDAS Noah version 2.0 in 0.25 degree sampling into the folder
-``~/workspace/gldas_data``. For more options run ``gldas_download -h``.
 
 Contribute
 ==========

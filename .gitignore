@@ -42,3 +42,4 @@ cover/*
 MANIFEST
 
 */local_scripts/*
+.artifacts/*
