@@ -38,6 +38,7 @@ class TestDownload(unittest.TestCase):
         ds = GLDAS_Noah_v21_025Ds(self.outpath)
         img = ds.read(datetime(2010, 3, 2, 3))
         assert list(img.data.keys()) == ['SoilMoi0_10cm_inst'] == list(img.metadata.keys())
+        ds.close()
 
 
 def test_get_last_dir_in_dir():
