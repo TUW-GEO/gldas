@@ -3,7 +3,6 @@ from pygeogrids.grids import BasicGrid
 from netCDF4 import Dataset
 import os
 
-
 def subgrid4bbox(grid, min_lon, min_lat, max_lon, max_lat):
     """
     Select a spatial subset for the grid by bound box corner points
