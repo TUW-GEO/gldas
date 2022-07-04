@@ -35,6 +35,7 @@ def test_GLDAS_Noah_v1_025Ds_img_reading():
         image.metadata["085_L1"]["long_name"]
         == u"ST Surface temperature of soil K"
     )
+    img.close()
 
 
 def test_GLDAS_Noah_v21_025Ds_img_reading():
@@ -71,6 +72,7 @@ def test_GLDAS_Noah_v21_025Ds_img_reading():
         image.metadata["AvgSurfT_inst"]["long_name"]
         == u"Average Surface Skin temperature"
     )
+    img.close()
 
 
 def test_GLDAS_Noah_v21_025Ds_img_reading_landpoints():
@@ -113,6 +115,8 @@ def test_GLDAS_Noah_v21_025Ds_img_reading_landpoints():
         image.metadata["AvgSurfT_inst"]["long_name"]
         == u"Average Surface Skin temperature"
     )
+    img.close()
+
 
 
 def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
@@ -141,6 +145,7 @@ def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
         datetime(2000, 1, 1, 18),
         datetime(2000, 1, 1, 21),
     ]
+    img.close()
 
 
 def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
@@ -175,6 +180,7 @@ def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
         datetime(2000, 1, 1, 18),
         datetime(2000, 1, 1, 21),
     ]
+    img.close()
 
 
 def test_GLDAS_Noah_v1_025Img_img_reading_1D():
@@ -204,6 +210,7 @@ def test_GLDAS_Noah_v1_025Img_img_reading_1D():
     assert image.data["051"][998529] == 0
     assert image.lon.shape == (360 * 180 * (1 / 0.25) ** 2,)
     assert image.lon.shape == image.lat.shape
+    img.close()
 
 
 def test_GLDAS_Noah_v21_025Img_img_reading_1D():
@@ -242,6 +249,7 @@ def test_GLDAS_Noah_v21_025Img_img_reading_1D():
         landgrid.activearrlat.size,
         landgrid.activearrlon.size,
     )
+    img.close()
 
 
 def test_GLDAS_Noah_v1_025Img_img_reading_2D():
@@ -274,6 +282,7 @@ def test_GLDAS_Noah_v1_025Img_img_reading_2D():
     assert image.data["051"][26, 609] == 0
     assert image.lon.shape == (720, 1440)
     assert image.lon.shape == image.lat.shape
+    img.close()
 
 
 def test_GLDAS_Noah_v21_025Img_img_reading_2D():
@@ -311,4 +320,5 @@ def test_GLDAS_Noah_v21_025Img_img_reading_2D():
     assert round(image.data["SWE_inst"][26, 609], 3) == 108.24
     assert image.lon.shape == (720, 1440)
     assert image.lon.shape == image.lat.shape
+    img.close()
 

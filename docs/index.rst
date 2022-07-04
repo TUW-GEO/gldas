@@ -12,9 +12,10 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   Reading <reading>
+   Downloading <download>
+   Image Reading <reading>
    Variable names <varnames>
-   Conversion to time series <img2ts>
+   Conversion to time series and Reading <img2ts>
    License <license>
    Authors <authors>
    Changelog <changelog>

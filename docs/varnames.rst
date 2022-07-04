@@ -2,8 +2,7 @@ Variable naming for different versions of GLDAS NOAH
 ====================================================
  
 For GLDAS Noah 1.0 parameters are called using their PDS IDs from the table below.
-A full list of PDS IDs can be found in the `GLDAS 1.0 README <https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS_V1/README.GLDAS.pdf>`_
-        
+
 For GLDAS Noah 2.0 and GLDAS Noah 2.1 parameters are called using Variable Names from the table below.
 A full list of variable names can be found in the `GLDAS 2.x README <https://hydro1.gesdisc.eosdis.nasa.gov/data/GLDAS/README_GLDAS2.pdf>`_
 

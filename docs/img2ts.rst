@@ -25,7 +25,7 @@ program. An example would be:
 
 .. code-block:: shell
 
-   gldas_repurpose /gldas_data /timeseries/data 2000-01-01 2001-01-01 SoilMoi0_10cm_inst SoilMoi10_40cm_inst
+   gldas_repurpose /download/image/path /output/timeseries/path 2000-01-01 2001-01-01 SoilMoi0_10cm_inst SoilMoi10_40cm_inst
 
 Which would take GLDAS Noah data stored in ``/gldas_data`` from January 1st
 2000 to January 1st 2001 and store the parameters for the top 2 layers of soil moisture as time

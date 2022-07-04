@@ -61,3 +61,4 @@ def test_reshuffle(landpoints, bbox, n_files_should):
         nptest.assert_allclose(
             ts["SoilMoi10_40cm_inst"].values, ts_SM10_40_values_should, rtol=1e-5
         )
+        ds.close()
