@@ -7,6 +7,18 @@ Unreleased
 
 -
 
+Version 0.6.2
+=============
+
+- Test download function with real data.
+- GHA to replace travis
+- Update docs
+
+Version 0.6.1
+=============
+
+- Travis upload release to pypi
+
 Version 0.6
 ===========
 

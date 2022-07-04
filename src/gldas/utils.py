@@ -35,4 +35,4 @@ def deprecated(message: str = None):
 
         return new_func
 
-    return
+    return decorator

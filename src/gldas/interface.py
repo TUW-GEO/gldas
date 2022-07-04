@@ -178,7 +178,7 @@ class GLDAS_Noah_v21_025Img(GLDAS_Noah_v2_025Img):
         )
 
 
-@deprecated("GLDAS Noah v1 data is deprecated, v2 should be used.")
+@deprecated(message="GLDAS Noah v1 data is deprecated, v2 should be used.")
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v1 grib file in 0.25 deg grid.
