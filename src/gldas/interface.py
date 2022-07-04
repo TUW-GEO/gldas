@@ -1,26 +1,4 @@
-﻿# The MIT License (MIT)
-#
-# Copyright (c) 2018, TU Wien
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-import warnings
+﻿import warnings
 import numpy as np
 import os
 
@@ -38,27 +16,12 @@ from datetime import timedelta
 from gldas.grid import GLDAS025Cellgrid
 from netCDF4 import Dataset
 from pygeogrids.netcdf import load_grid
-from warnings import warn
+from gldas.utils import deprecated
 
 
 class GLDAS_Noah_v2_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v2.1 nc file in 0.25 deg grid.
-
-    Parameters
-    ----------
-    filename: string
-        filename of the GLDAS nc file
-    mode: string, optional
-        mode of opening the file, only 'r' is implemented at the moment
-    parameter : string or list, optional
-        one or list of parameters to read, see GLDAS v2.1 documentation
-        for more information (default: 'SoilMoi0_10cm_inst').
-    subgrid : Cell Grid
-        Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
-    array_1D: boolean, optional
-        if set then the data is read into 1D arrays.
-        Needed for some legacy code.
     """
 
     def __init__(
@@ -69,6 +32,22 @@ class GLDAS_Noah_v2_025Img(ImageBase):
         subgrid=None,
         array_1D=False,
     ):
+        """
+        Parameters
+        ----------
+        filename: str
+            filename of the GLDAS nc file
+        mode: string, optional
+            mode of opening the file, only 'r' is implemented at the moment
+        parameter : string or list, optional
+            one or list of parameters to read, see GLDAS v2.1 documentation
+            for more information (default: 'SoilMoi0_10cm_inst').
+        subgrid : Cell Grid
+            Subgrid of the global GLDAS Grid to use for reading image data (e.g only land points)
+        array_1D: boolean, optional
+            if set then the data is read into 1D arrays.
+            Needed for some legacy code.
+        """
 
         super(GLDAS_Noah_v2_025Img, self).__init__(filename, mode=mode)
 
@@ -91,10 +70,8 @@ class GLDAS_Noah_v2_025Img(ImageBase):
 
         try:
             dataset = Dataset(self.filename)
-        except IOError as e:
-            print(e)
-            print(" ".join([self.filename, "can not be opened"]))
-            raise e
+        except IOError:
+            raise IOError(f"Error opening file {self.filename}")
 
         param_names = []
         for parameter in self.parameters:
@@ -201,6 +178,7 @@ class GLDAS_Noah_v21_025Img(GLDAS_Noah_v2_025Img):
         )
 
 
+@deprecated("GLDAS Noah v1 data is deprecated, v2 should be used.")
 class GLDAS_Noah_v1_025Img(ImageBase):
     """
     Class for reading one GLDAS Noah v1 grib file in 0.25 deg grid.
@@ -341,7 +319,6 @@ class GLDAS_Noah_v1_025Img(ImageBase):
     def close(self):
         pass
 
-
 class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
     """
     Class for reading GLDAS v2.1 images in nc format.
@@ -424,7 +401,7 @@ class GLDAS_Noah_v21_025Ds(MultiTemporalImageBase):
 
         return timestamps
 
-
+@deprecated("GLDAS Noah v1 data is deprecated, v2 should be used.")
 class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
     """
     Class for reading GLDAS images in grib format.
