@@ -2,8 +2,8 @@
 gldas
 =====
 
-.. image:: https://travis-ci.org/TUW-GEO/gldas.svg?branch=master
-    :target: https://travis-ci.org/TUW-GEO/gldas
+.. image:: https://github.com/TUW-GEO/gldas/workflows/Automated%20Tests/badge.svg?branch=master
+   :target: https://github.com/TUW-GEO/gldas/actions
 
 .. image:: https://coveralls.io/repos/github/TUW-GEO/gldas/badge.svg?branch=master
    :target: https://coveralls.io/github/TUW-GEO/gldas?branch=master

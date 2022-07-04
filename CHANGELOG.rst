@@ -7,12 +7,14 @@ Unreleased
 
 -
 
-Version 0.6.2
+Version 0.7.0
 =============
 
 - Test download function with real data.
+- Support GLDAS EP
 - GHA to replace travis
 - Update docs
+- Update Formatting
 
 Version 0.6.1
 =============
