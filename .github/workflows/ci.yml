@@ -54,7 +54,7 @@ jobs:
       - name: Install base package and run tests
         shell: bash -l {0}
         run: |
-          conda install -c conda-forge pygrib
+          conda install -c conda-forge numpy pygrib
           pip install -e .[testing]
           pytest
       - name: Export Environment
