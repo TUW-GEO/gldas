@@ -45,15 +45,16 @@ python version is ``3.9``.
 To read grib files on Windows systems, it might be necessary to use conda to
 install pygrib first:
 
-.. code-block:: shell
-  conda install pygrib
-  conda activate gldas
+.. code::
+
+    conda install pygrib
+    conda activate gldas
 
 Afterwards you can install the gldas package and all other dependencies via
 
-.. code-block:: shell
+.. code::
 
-  pip install gldas
+    pip install gldas
 
 Supported Products
 ==================
