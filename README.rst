@@ -2,16 +2,18 @@
 gldas
 =====
 
-.. image:: https://github.com/TUW-GEO/gldas/workflows/Automated%20Tests/badge.svg?branch=master
+|ci| |cov| |pip| |doc|
+
+.. |ci| image:: https://github.com/TUW-GEO/gldas/actions/workflows/ci.yml/badge.svg?branch=master
    :target: https://github.com/TUW-GEO/gldas/actions
 
-.. image:: https://coveralls.io/repos/github/TUW-GEO/gldas/badge.svg?branch=master
-   :target: https://coveralls.io/github/TUW-GEO/gldas?branch=master
+.. |cov| image:: https://coveralls.io/repos/TUW-GEO/gldas/badge.png?branch=master
+  :target: https://coveralls.io/r/TUW-GEO/gldas?branch=master
 
-.. image:: https://badge.fury.io/py/gldas.svg
+.. |pip| image:: https://badge.fury.io/py/gldas.svg
     :target: http://badge.fury.io/py/gldas
 
-.. image:: https://readthedocs.org/projects/gldas/badge/?version=latest
+.. |doc| image:: https://readthedocs.org/projects/gldas/badge/?version=latest
    :target: http://gldas.readthedocs.org/
 
 Readers and converters for data from the `GLDAS Noah Land Surface Model
@@ -37,25 +39,20 @@ You can find additional information regarding DOI versioning at http://help.zeno
 Installation
 ============
 
-Setup of a complete environment with `conda
-<http://conda.pydata.org/miniconda.html>`_ can be performed using the following
-commands:
+This package can be installed via pip from pypi.org. The minimum required
+python version is ``3.9``.
+
+To read grib files on Windows systems, it might be necessary to use conda to
+install pygrib first:
+
+.. code-block:: shell
+  conda install pygrib
+  conda activate gldas
+
+Afterwards you can install the gldas package and all other dependencies via
 
 .. code-block:: shell
 
-  conda create -n gldas python=3.9 # or any other supported python version
-  source activate gldas
-
-.. code-block:: shell
-
-  # Either install required conda packages manually
-  conda install -c conda-forge numpy netCDF4 pyproj pygrib pyresample -n gldas
-  # Or use the provided environment file to install all dependencies
-  conda env update -f environment.yml -n gldas
-
-.. code-block:: shell
-
-  # Install the latest gldas package and its pip-dependencies
   pip install gldas
 
 Supported Products
@@ -75,9 +72,10 @@ Development setup
 -----------------
 
 For Development we also recommend a ``conda`` environment. You can create one
-including test dependencies and debugger by running
-``conda env create -f environment.yml``. This will create a new ``gldas``
-environment which you can activate by using ``source activate gldas``.
+including test dependencies and debugger by running ``conda create -n gldas python=3.12``, then
+``conda env update -f environment.yml`` to install all dependencies. Finally, call
+``pip install -e .[testing]``. Now everything should be in place to run tests
+and develop new features.
 
 Guidelines
 ----------

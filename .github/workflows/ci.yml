@@ -5,7 +5,7 @@
 # For more information see:
 # https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Automated Tests
+name: CI/CD
 
 on:
   push:
@@ -54,6 +54,7 @@ jobs:
       - name: Install base package and run tests
         shell: bash -l {0}
         run: |
+          conda install -c conda-forge pygrib
           pip install -e .[testing]
           pytest
       - name: Export Environment
