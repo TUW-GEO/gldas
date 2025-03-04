@@ -4,6 +4,10 @@ Changelog
 
 Unreleased
 ==========
+-
+
+Version 0.7.1
+=============
 - CI and docs updates (new python versions etc.)
 
 Version 0.7.0
