@@ -48,7 +48,6 @@ install pygrib first:
 .. code::
 
     conda install pygrib
-    conda activate gldas
 
 Afterwards you can install the gldas package and all other dependencies via
 

@@ -32,7 +32,6 @@ jobs:
             python-version: '3.12'  # latest supported
           - os: "macos-latest"
             python-version: '3.12'  # latest supported
-
     steps:
       - uses: actions/checkout@v4
         with:
