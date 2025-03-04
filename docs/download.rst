@@ -6,7 +6,8 @@ NASA's Earthdata portal at `<https://disc.gsfc.nasa.gov/>`_.
 
 After that you can use the command line program ``gldas_download`` together with your username and password.
 
-For example to download all GLDAS Noah v2.1 Images (3-hourly)
+For example to download all GLDAS Noah v2.1 Images (3-hourly) in the period from June 3 to 6 2018
+into the local directory `/tmp`, you'd call (with your username and password):
 
 .. code::
 
@@ -16,6 +17,6 @@ would download GLDAS Noah version 2.1 data from the select start to the selected
 
 For a description of the download function and all options run
 
-..code::
+.. code::
 
- gldas_download -h
+    gldas_download -h
