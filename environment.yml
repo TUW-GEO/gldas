@@ -5,7 +5,7 @@ channels:
 dependencies:
   - pandas
   - numpy
-  - pygrib
+#  - pygrib
   - netCDF4
   - pyresample
   # pip dependencies are defined in setup.cfg
