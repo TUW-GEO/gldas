@@ -52,10 +52,12 @@ jobs:
           conda info -a
           which pip
           which python
+          conda list
       - name: Install package and dependencies
         shell: bash -l {0}
         run: |
           pip install -e .[testing,building]
+          conda list
       - name: Export Environment
         shell: bash -l {0}
         run: |

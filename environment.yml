@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-- pandas
-- numpy
-- pygrib
-- netCDF4
-- pyresample
-# pip dependencies are defined in setup.cfg
+  - pandas
+  - numpy
+  - pygrib
+  - netCDF4
+  - pyresample
+  # pip dependencies are defined in setup.cfg
