@@ -53,7 +53,21 @@ For reading the data the ``gldas_repurpose`` command produces the class
 .. code-block:: python
 
     from gldas.interface import GLDASTs
-    ds = GLDASTs(ts_path)
+    ds = GLDASTs(ts_path, ioclass_kws={'read_bulk': True})
     # read_ts takes either lon, lat coordinates or a grid point indices.
     # and returns a pandas.DataFrame
-    ts = ds.read_ts(45, 15)
+    ts = ds.read(45, 15)
+
+    >>> ts
+                         Snowf_tavg  ...  SoilTMP100_200cm_inst
+    2000-01-01 03:00:00         0.0  ...             292.014526
+    2000-01-01 06:00:00         0.0  ...             292.006256
+    2000-01-01 09:00:00         0.0  ...             291.998505
+    2000-01-01 12:00:00         0.0  ...             291.981201
+    2000-01-01 15:00:00         0.0  ...             291.974579
+    ...                         ...  ...                    ...
+    2023-10-31 09:00:00         0.0  ...             299.025757
+    2023-10-31 12:00:00         0.0  ...             299.025024
+    2023-10-31 15:00:00         0.0  ...             299.014282
+    2023-10-31 18:00:00         0.0  ...             299.003540
+    2023-10-31 21:00:00         0.0  ...             298.992798

@@ -13,7 +13,7 @@ dependencies:
     - pygeobase
     - pynetcf
     - repurpose
-    - datedown>=0.3
+    - datedown>=0.4
     - trollsift
     - pytest-cov
     - coverage
