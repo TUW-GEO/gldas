@@ -65,6 +65,19 @@ jobs:
         shell: bash -l {0}
         run: |
           pytest
+      - name: Create wheel and dist package
+        shell: bash -l {0}
+        run: |
+          mkdir -p artifacts/dist
+          if [ ${{ matrix.os }} == "linux-latest" ]
+          then
+            # build dist on linux
+            python setup.py sdist --dist-dir artifacts/dist
+          fi
+          pip install wheel
+          python setup.py bdist_wheel --dist-dir artifacts/dist
+          ls artifacts/dist
+          twine check artifacts/dist/*
       - name: Upload Coverage
         shell: bash -l {0}
         run: |
@@ -73,20 +86,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
-      - name: Create wheel and dist package
-        shell: bash -l {0}
-        run: |
-          pip install setuptools_scm twine
-          if [ ${{ matrix.os }} == "linux-latest" ]
-          then
-            # build dist on linux
-            python setup.py sdist --dist-dir artifacts/dist
-          else:
-            pip install wheel
-            python setup.py bdist_wheel --dist-dir artifacts/dist
-          fi
-          ls artifacts/dist
-          twine check artifacts/dist/*
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
