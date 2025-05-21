@@ -9,3 +9,5 @@ dependencies:
   - netCDF4
   - pyresample
   # pip dependencies are defined in setup.cfg
+  - pip:
+      - setuptools-scm
