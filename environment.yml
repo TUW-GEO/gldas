@@ -6,15 +6,6 @@ dependencies:
 - pandas
 - numpy
 - pygrib
-- netcdf4
+- netCDF4
 - pyresample
-- pip
-- pip:
-    - pygeobase
-    - pynetcf
-    - repurpose
-    - datedown>=0.4
-    - trollsift
-    - pytest-cov
-    - coverage
-    - pytest
+# pip dependencies are defined in setup.cfg
