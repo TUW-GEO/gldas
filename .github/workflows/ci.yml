@@ -45,7 +45,7 @@ jobs:
           channel-priority: flexible
           activate-environment: gldas
           auto-activate-base: false
-          environment-file: 'environment.yml'
+          # environment-file: 'environment.yml'
       - name: Print environment infos
         shell: bash -l {0}
         run: |
