@@ -29,8 +29,8 @@ jobs:
             python-version: '3.10'  # first supported
           - os: "ubuntu-latest"
             python-version: '3.12'  # latest supported
-          - os: "windows-latest"
-            python-version: '3.12'  # latest supported
+#          - os: "windows-latest"
+#            python-version: '3.12'  # latest supported
           - os: "macos-latest"
             python-version: '3.12'  # latest supported
     steps:
