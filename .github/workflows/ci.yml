@@ -57,17 +57,21 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install -e .[building,testing]
-          conda list
+      - name: Run Tests
+        shell: bash -l {0}
+        run: |
+          pytest
+      - name: Install pygrib and run pygrib tests
+        shell: bash -l {0}
+        run: |
+          conda install pygrib
+          pytest -m "pygrib" --cov-append
       - name: Export Environment
         shell: bash -l {0}
         run: |
           mkdir -p artifacts
           filename=env_py${{ matrix.python-version }}_${{ matrix.os }}.yml
           conda env export --no-builds | grep -v "prefix" > artifacts/$filename
-      - name: Run Tests
-        shell: bash -l {0}
-        run: |
-          pytest
       - name: Create wheel and dist package
         shell: bash -l {0}
         run: |

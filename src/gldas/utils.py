@@ -2,6 +2,15 @@ import functools
 import inspect
 import warnings
 
+
+class PygribError(ImportError):
+    def __init__(self):
+        # Call the base class constructor with the parameters it needs
+        message = ("Pygrib is not installed. "
+        "Please run 'pip install pygrib' or 'conda install pygrib' "
+        "first.")
+        super().__init__(message)
+
 def deprecated(message: str = None):
     """
     Decorator for classes or functions to mark them as deprecated.

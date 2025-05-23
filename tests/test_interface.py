@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
 from datetime import datetime
+import pytest
 
 from gldas.interface import GLDAS_Noah_v1_025Ds, GLDAS_Noah_v1_025Img
 from gldas.interface import GLDAS_Noah_v21_025Ds, GLDAS_Noah_v21_025Img
 from gldas.grid import GLDAS025LandGrid
+from gldas.interface import pygrib_available
 
 
+@pytest.mark.pygrib
+@pytest.mark.skipif(not pygrib_available, reason="Pygrib not installed.")
 def test_GLDAS_Noah_v1_025Ds_img_reading():
     parameter = ["086_L2", "086_L1", "085_L1", "138", "132", "051"]
     img = GLDAS_Noah_v1_025Ds(
@@ -117,8 +121,8 @@ def test_GLDAS_Noah_v21_025Ds_img_reading_landpoints():
     )
     img.close()
 
-
-
+@pytest.mark.pygrib
+@pytest.mark.skipif(not pygrib_available, reason="Pygrib not installed.")
 def test_GLDAS_Noah_v1_025Ds_timestamps_for_daterange():
     landgrid = GLDAS025LandGrid()
     parameter = ["086_L2", "086_L1", "085_L1", "138", "132", "051"]
@@ -182,7 +186,8 @@ def test_GLDAS_Noah_v21_025Ds_timestamps_for_daterange():
     ]
     img.close()
 
-
+@pytest.mark.pygrib
+@pytest.mark.skipif(not pygrib_available, reason="Pygrib not installed.")
 def test_GLDAS_Noah_v1_025Img_img_reading_1D():
 
     parameter = ["086_L2", "086_L1", "085_L1", "138", "132", "051"]
@@ -251,7 +256,8 @@ def test_GLDAS_Noah_v21_025Img_img_reading_1D():
     )
     img.close()
 
-
+@pytest.mark.pygrib
+@pytest.mark.skipif(not pygrib_available, reason="Pygrib not installed.")
 def test_GLDAS_Noah_v1_025Img_img_reading_2D():
 
     parameter = ["086_L2", "086_L1", "085_L1", "138", "132", "051"]
