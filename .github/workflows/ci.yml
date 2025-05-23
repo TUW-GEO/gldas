@@ -76,7 +76,7 @@ jobs:
         shell: bash -l {0}
         run: |
           mkdir -p artifacts/dist
-          if [ ${{ matrix.os }} == "linux-latest" ]
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]
           then
             # build dist on linux
             python setup.py sdist --dist-dir artifacts/dist
