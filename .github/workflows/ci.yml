@@ -64,7 +64,7 @@ jobs:
       - name: Install pygrib and run pygrib tests
         shell: bash -l {0}
         run: |
-          conda install pygrib
+          conda install -c conda-forge pygrib
           pytest -m "pygrib" --cov-append
       - name: Export Environment
         shell: bash -l {0}

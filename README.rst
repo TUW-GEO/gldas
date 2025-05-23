@@ -61,7 +61,7 @@ On windows it might be necessary to use conda:
 
 .. code::
 
-    conda install pygrib
+    conda install -c conda-forge pygrib
 
 
 Supported Products
