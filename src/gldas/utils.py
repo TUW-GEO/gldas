@@ -8,7 +8,7 @@ class PygribError(ImportError):
         # Call the base class constructor with the parameters it needs
         message = ("Pygrib is not installed. "
         "Please run 'pip install pygrib' or 'conda install pygrib' "
-        "first.")
+        "first, to read data in grib format.")
         super().__init__(message)
 
 def deprecated(message: str = None):
