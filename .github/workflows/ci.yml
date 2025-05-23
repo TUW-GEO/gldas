@@ -79,7 +79,7 @@ jobs:
           if [ ${{ matrix.os }} == "ubuntu-latest" ]
           then
             # build dist on linux
-            python setup.py sdist --dist-dir artifacts/dist
+            python -m build --outdir artifacts/dist
           fi
           pip install wheel
           python setup.py bdist_wheel --dist-dir artifacts/dist
