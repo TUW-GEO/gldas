@@ -39,8 +39,8 @@ You can find additional information regarding DOI versioning at http://help.zeno
 Installation
 ============
 
-This package can be installed via pip from pypi.org. The minimum required
-python version is ``3.9``.
+This package can be installed via pip from pypi.org. The minimum supported
+python version is ``3.10``.
 
 You can install the gldas package and all required dependencies via
 
