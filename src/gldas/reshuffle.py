@@ -165,6 +165,7 @@ def reshuffle(
         cellsize_lat=5.0,
         cellsize_lon=5.0,
         global_attr=global_attr,
+        n_proc=1,
         zlib=True,
         unlim_chunksize=1000,
         ts_attributes=ts_attributes,

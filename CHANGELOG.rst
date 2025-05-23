@@ -6,6 +6,10 @@ Unreleased
 ==========
 -
 
+Version 0.7.2
+=============
+- Make pygrib optional dependency
+
 Version 0.7.1
 =============
 - CI and docs updates (new python versions etc.)

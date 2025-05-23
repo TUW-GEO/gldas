@@ -4,8 +4,9 @@ import os
 
 try:
     import pygrib
+    pygrib_available = True
 except ImportError:
-    warnings.warn("pygrib has not been imported")
+    pygrib_available = False
 
 from pygeobase.io_base import ImageBase, MultiTemporalImageBase
 from pygeobase.object_base import Image
@@ -16,7 +17,7 @@ from datetime import timedelta
 from gldas.grid import GLDAS025Cellgrid
 from netCDF4 import Dataset
 from pygeogrids.netcdf import load_grid
-from gldas.utils import deprecated
+from gldas.utils import deprecated, PygribError
 
 
 class GLDAS_Noah_v2_025Img(ImageBase):
@@ -213,6 +214,9 @@ class GLDAS_Noah_v1_025Img(ImageBase):
         subgrid=None,
         array_1D=False,
     ):
+        if not pygrib_available:
+            raise PygribError
+
         super(GLDAS_Noah_v1_025Img, self).__init__(filename, mode=mode)
 
         if type(parameter) != list:
@@ -429,6 +433,9 @@ class GLDAS_Noah_v1_025Ds(MultiTemporalImageBase):
     def __init__(
         self, data_path, parameter="086_L1", subgrid=None, array_1D=False
     ):
+        if not pygrib_available:
+            raise PygribError
+
         ioclass_kws = {
             "parameter": parameter,
             "subgrid": subgrid,

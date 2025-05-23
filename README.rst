@@ -39,21 +39,30 @@ You can find additional information regarding DOI versioning at http://help.zeno
 Installation
 ============
 
-This package can be installed via pip from pypi.org. The minimum required
-python version is ``3.9``.
+This package can be installed via pip from pypi.org. The minimum supported
+python version is ``3.10``.
 
-To read grib files on Windows systems, it might be necessary to use conda to
-install pygrib first:
-
-.. code::
-
-    conda install pygrib
-
-Afterwards you can install the gldas package and all other dependencies via
+You can install the gldas package and all required dependencies via
 
 .. code::
 
     pip install gldas
+
+Optional dependencies
+---------------------
+
+To read grib versions of GLDAS Noah, please install pygrib first:
+
+.. code::
+
+    pip install pygrib
+
+On windows it might be necessary to use conda:
+
+.. code::
+
+    conda install -c conda-forge pygrib
+
 
 Supported Products
 ==================
