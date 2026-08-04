@@ -38,7 +38,7 @@ Documentation = "https://gldas.readthedocs.io/en/latest/"
 
 [project.optional-dependencies]
 testing = ["pytest-cov", "coverage", "pytest"]
-docs = ["sphinx>=3.2.1", "alabaster"]
+docs = ["sphinx>=3.2.1", "sphinx_rtd_theme"]
 
 [project.scripts]
 gldas_download = "gldas.download:run"
