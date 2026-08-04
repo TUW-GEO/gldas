@@ -1,8 +1,71 @@
 [build-system]
-# AVOID CHANGING REQUIRES: IT WILL BE UPDATED BY PYSCAFFOLD!
-requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5", "wheel", "packaging", "build"]
+requires = ["setuptools>=77", "setuptools_scm[toml]>=5", "wheel", "packaging", "build"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 # See configuration details in https://github.com/pypa/setuptools_scm
 version_scheme = "no-guess-dev"
+
+[project]
+name = "gldas"
+description = "Readers and converters for data from the GLDAS Noah Land Surface Model."
+readme = { file = "README.rst", content-type = "text/x-rst" }
+license = "MIT"
+authors = [
+    { name = "TU Wien", email = "support@qa4sm.eu" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pyproj",
+    "pygeogrids",
+    "numpy",
+    "pygeobase",
+    "trollsift",
+    "netCDF4",
+    "pyresample",
+    "repurpose",
+    "pynetcf",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/TUW-GEO/gldas"
+Documentation = "https://gldas.readthedocs.io/en/latest/"
+
+[project.optional-dependencies]
+testing = ["pytest-cov", "coverage", "pytest"]
+docs = ["sphinx>=3.2.1", "sphinx_rtd_theme"]
+
+[project.scripts]
+gldas_download = "gldas.download:run"
+gldas_repurpose = "gldas.reshuffle:run"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov gldas --cov-report term-missing --verbose"
+norecursedirs = ["dist", "build", ".tox"]
+testpaths = ["tests"]
+
+# NOTE: flake8 does not natively support pyproject.toml.
+# To use [tool.flake8] here, install the `flake8-pyproject` plugin.
+# Alternatively, keep flake8 config in .flake8 or setup.cfg.
+[tool.flake8]
+exclude = [".tox", "build", "dist", ".eggs", "docs/conf.py"]
+
+[tool.pyscaffold]
+# PyScaffold's parameters when the project was created.
+# This will be used when updating. Do not change!
+version = "4.6"
+package = "gldas"
+extensions = ["no_skeleton"]

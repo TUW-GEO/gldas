@@ -82,9 +82,9 @@ Development setup
 
 For Development we also recommend a ``conda`` environment. You can create one
 including test dependencies and debugger by running ``conda create -n gldas python=3.12``, then
-``conda env update -f environment.yml`` to install all dependencies. Finally, call
-``pip install -e .[testing]``. Now everything should be in place to run tests
-and develop new features.
+activate it and call ``pip install -e .[testing]`` to install the package and
+all required and test dependencies. Now everything should be in place to run
+tests and develop new features.
 
 Guidelines
 ----------
@@ -101,5 +101,5 @@ If you want to contribute please follow these steps:
 Note
 ====
 
-This project has been set up using PyScaffold 2.5.6. For details and usage
-information on PyScaffold see http://pyscaffold.readthedocs.org/.
+This project has been set up using PyScaffold 4.6. For details and usage
+information on PyScaffold see https://pyscaffold.org/.

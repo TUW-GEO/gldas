@@ -28,11 +28,11 @@ jobs:
           - os: "macos-latest"
             python-version: '3.10'  # first supported
           - os: "ubuntu-latest"
-            python-version: '3.12'  # latest supported
+            python-version: '3.13'  # latest supported
           - os: "windows-latest"
-            python-version: '3.12'  # latest supported
+            python-version: '3.13'  # latest supported
           - os: "macos-latest"
-            python-version: '3.12'  # latest supported
+            python-version: '3.13'  # latest supported
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,7 +45,6 @@ jobs:
           channel-priority: flexible
           activate-environment: gldas
           auto-activate-base: false
-          # environment-file: 'environment.yml'
       - name: Print environment infos
         shell: bash -l {0}
         run: |
@@ -56,7 +55,7 @@ jobs:
       - name: Install package and dependencies
         shell: bash -l {0}
         run: |
-          pip install -e .[building,testing]
+          pip install -e .[testing]
       - name: Run Tests
         shell: bash -l {0}
         run: |
@@ -75,14 +74,16 @@ jobs:
       - name: Create wheel and dist package
         shell: bash -l {0}
         run: |
+          pip install build twine
           mkdir -p artifacts/dist
-          if [ ${{ matrix.os }} == "ubuntu-latest" ]
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]
           then
-            # build dist on linux
+            # build sdist and wheel on linux
             python -m build --outdir artifacts/dist
+          else
+            # only build the wheel on the other platforms
+            python -m build --wheel --outdir artifacts/dist
           fi
-          pip install wheel
-          python setup.py bdist_wheel --dist-dir artifacts/dist
           ls artifacts/dist
           twine check artifacts/dist/*
       - name: Upload Coverage
