@@ -6,6 +6,12 @@ Unreleased
 ==========
 -
 
+Version 0.7.3
+=============
+- Pyscaffold updated
+- use pyproject.toml, tox, etc.
+- datedown now part of this package
+
 Version 0.7.2
 =============
 - Make pygrib optional dependency
