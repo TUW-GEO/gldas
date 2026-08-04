@@ -7,15 +7,15 @@ import sys
 import glob
 import argparse
 from functools import partial
-
 from trollsift.parser import validate, parse, globify
 from datetime import datetime
-from datedown.interface import mkdate
-from datedown.dates import daily
-from datedown.urlcreator import create_dt_url
-from datedown.fname_creator import create_dt_fpath
-from datedown.interface import download_by_dt
-from datedown.down import download
+
+from gldas.datedown.interface import mkdate
+from gldas.datedown.dates import daily
+from gldas.datedown.urlcreator import create_dt_url
+from gldas.datedown.fname_creator import create_dt_fpath
+from gldas.datedown.interface import download_by_dt
+from gldas.datedown.down import download
 
 
 def gldas_folder_get_version_first_last(
